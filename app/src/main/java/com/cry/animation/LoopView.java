@@ -257,7 +257,7 @@ public class LoopView extends FrameLayout{
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            AnimRotationTo(angle-360/size,null);
+                            if(size!=0)AnimRotationTo(angle-360/size,null);
                         }
                     });
                 }
@@ -266,19 +266,6 @@ public class LoopView extends FrameLayout{
             try{ timer.cancel();
                 timer=null;}catch (Exception e){}
         }
-    }
-    private void sendDelayed(){
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AnimRotationTo(angle - 360 / size, new Runnable() {
-                    @Override
-                    public void run() {
-                        if(autoRotation)sendDelayed();
-                    }
-                });
-            }
-        }, autoRotationTime);
     }
 
     public long getAutoRotationTime() {
