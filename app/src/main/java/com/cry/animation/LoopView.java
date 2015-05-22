@@ -29,7 +29,7 @@ public class LoopView extends FrameLayout{
     private float angle=0;//角度
     private boolean autoRotation=false;//自动旋转
     private long autoRotationTime=3000;//旋转时间
-    List<View> views=new ArrayList<>();//子view引用列表
+    List<View> views=new ArrayList<View>();//子view引用列表
 
     Handler handler=new Handler();
     public LoopView(Context context) {
@@ -50,13 +50,12 @@ public class LoopView extends FrameLayout{
     private void init(Context context) {
         this.con=context;
         mGestureDetector= new GestureDetector(context, getGeomeryController());
-        //restPosition();
     }
     private void sortList(List<View> list){
         Comparator comp=new SortComparator();
         Collections.sort(list, comp);
         for (int i=0;i<list.size();i++){
-           list.get(i).bringToFront();
+            list.get(i).bringToFront();
             list.get(i).setEnabled(i==(list.size()-1)&&angle%(360/size)==0 ? true:false);
         }
 
@@ -88,24 +87,31 @@ public class LoopView extends FrameLayout{
         for (int i=0;i<views.size();i++){
             float x0 = (float) Math.sin(Math.toRadians(angle+180- i * 360 / size))*r;
             float y0=(float)Math.cos(Math.toRadians(angle+180 - i * 360 / size))*r;
-            float scale0= (distance -y0)/ (distance+views.get(i).getWidth()/2);
+            float scale0= (distance -y0)/ (distance+r);
             views.get(i).setScaleX(scale0);
             views.get(i).setScaleY(scale0);
             views.get(i).setX(width / 2 + x0 - views.get(i).getWidth() / 2);
         }
-       List<View> arr=new ArrayList<View>();
-       for (int i=0;i<views.size();i++){
-           arr.add(views.get(i));
-       }
+        List<View> arr=new ArrayList<View>();
+        for (int i=0;i<views.size();i++){
+            arr.add(views.get(i));
+        }
         sortList(arr);
         postInvalidate();
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        // initView();
+        invate();
+    }
+
+    @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
         initView();
         invate();
-        super.onLayout(changed, l, t, r, b);
     }
 
     private void initView() {
@@ -151,7 +157,7 @@ public class LoopView extends FrameLayout{
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                angle= (float)animation.getAnimatedValue();
+                angle= (Float)animation.getAnimatedValue();
                 invate();
             }
         });
@@ -159,6 +165,7 @@ public class LoopView extends FrameLayout{
     }
 
     private boolean onTouch(MotionEvent event){
+        this.getParent().requestDisallowInterceptTouchEvent(true);//通知父控件勿拦截本控件
         if (event.getAction()==MotionEvent.ACTION_UP){
             restPosition();
             return true;
@@ -167,11 +174,15 @@ public class LoopView extends FrameLayout{
         return true;
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         onTouch(event);
         return true;
     }
+
+
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         onTouch(ev);
