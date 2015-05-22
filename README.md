@@ -21,8 +21,8 @@
          android:scaleType="fitXY"<br />
          android:paddingLeft="20dp"<br />
          android:paddingRight="20dp"<br />
-         android:src="@drawable/image_shader"/><br />
-       ...............<br />
+         android:src="@drawable/image_shader"/>
+       <br />...............<br />
  </com.cry.animation.LoopView>
  <code>
 ##问题反馈和联系方式
