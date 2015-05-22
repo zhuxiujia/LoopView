@@ -9,19 +9,13 @@
 ##如何使用？
 <code>
 <com.cry.animation.LoopView<br />
-        android:id="@+id/loopview"<br />
         android:layout_width="fill_parent"<br />
         android:layout_height="fill_parent"<br />
         android:gravity="center_vertical"<br />
         ><br />
   <!--  此处添加你的布局元素，可以用layout包裹 --!><br />
-       <ImageView<br />
-         android:layout_width="130dp"<br />
-         android:layout_height="20dp"<br />
-         android:scaleType="fitXY"<br />
-         android:paddingLeft="20dp"<br />
-         android:paddingRight="20dp"<br />
-         android:src="@drawable/image_shader"/>
+       <View<br />
+        />
        <br />...............<br />
  </com.cry.animation.LoopView>
  <code>
