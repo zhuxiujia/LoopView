@@ -1,5 +1,6 @@
 package com.cry.animation;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by zxj on 15/5/20.
@@ -27,6 +30,7 @@ public class LoopView extends FrameLayout{
     private float r=200;//半径
     private float distance =4*r;//camera和观察的旋转物体距离， 距离越长,最大物体和最小物体比例越不明显
     private float angle=0;//角度
+    private Timer timer=null;//自动旋转timer
     private boolean autoRotation=false;//自动旋转
     private long autoRotationTime=3000;//旋转时间
     List<View> views=new ArrayList<View>();//子view引用列表
@@ -145,10 +149,11 @@ public class LoopView extends FrameLayout{
                 finall = minvalue;
             }
         }
-        AnimRotationTo(finall);
+        AnimRotationTo(finall, null);
     }
 
-    private void AnimRotationTo(float finall){
+
+    private void AnimRotationTo(float finall, final Runnable complete){
         if(angle==finall){return;}
         valueAnimator= ValueAnimator.ofFloat(angle,finall);
         valueAnimator.setInterpolator(new DecelerateInterpolator());
@@ -157,10 +162,31 @@ public class LoopView extends FrameLayout{
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                angle= (Float)animation.getAnimatedValue();
+                angle = (Float) animation.getAnimatedValue();
                 invate();
             }
         });
+        if(complete!=null){valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                complete.run();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });}
         valueAnimator.start();
     }
 
@@ -217,16 +243,40 @@ public class LoopView extends FrameLayout{
     }
 
     public void setAutoRotation(boolean autoRotation) {
+        try{timer.cancel();
+            timer=null;}catch (Exception e){}
         this.autoRotation = autoRotation;
         angle=0;
-        sendDelayed();
+        invate();
+        if(autoRotation){
+            timer=  new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            AnimRotationTo(angle-360/size,null);
+                        }
+                    });
+                }
+            }, 0,autoRotationTime);
+        }else{
+            try{ timer.cancel();
+                timer=null;}catch (Exception e){}
+        }
     }
     private void sendDelayed(){
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                AnimRotationTo(angle-360/size);
-                if(autoRotation)sendDelayed();
+                AnimRotationTo(angle - 360 / size, new Runnable() {
+                    @Override
+                    public void run() {
+                        if(autoRotation)sendDelayed();
+                    }
+                });
             }
         }, autoRotationTime);
     }
