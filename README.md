@@ -13,12 +13,12 @@
         `android:layout_height="fill_parent"`<br />
         `android:gravity="center_vertical"`<br />
         `>`<br />
-  <!--  此处添加你的布局元素，可以用layout包裹 --!><br />
+  <!--  此处添加你的View元素，也可以用layout包裹 --!><br />
        `<View`<br />
        `android:layout_width="200dp"`<br />
        `android:layout_height="200dp"`<br />
-        `/>`
-       `...............`
+        `/>`<br />
+       `...............`<br />
  `</com.cry.animation.LoopView>`
 ##问题反馈和联系方式
 qq:347284221<br />
