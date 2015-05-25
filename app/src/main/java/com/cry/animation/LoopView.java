@@ -112,7 +112,6 @@ public class LoopView extends FrameLayout{
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        // initView();
         invate();
     }
 
@@ -121,7 +120,7 @@ public class LoopView extends FrameLayout{
         super.onLayout(changed, l, t, r, b);
         InitData();
     }
-    private void InitData() {
+    public void InitData() {
         initView();
         invate();
         if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
