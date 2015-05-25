@@ -119,9 +119,47 @@ public class LoopView extends FrameLayout{
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+        InitData();
+    }
+    private void InitData() {
         initView();
         invate();
-        if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem);}
+        if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
+    }
+    @Override
+    public void removeAllViews() {
+        super.removeAllViews();
+        InitData();
+    }
+
+    @Override
+    public void removeView(View view) {
+        super.removeView(view);
+        InitData();
+    }
+
+    @Override
+    public void removeViewAt(int index) {
+        super.removeViewAt(index);
+        InitData();
+    }
+
+    @Override
+    public void removeViewInLayout(View view) {
+        super.removeViewInLayout(view);
+        InitData();
+    }
+
+    @Override
+    public void removeViews(int start, int count) {
+        super.removeViews(start, count);
+        InitData();
+    }
+
+    @Override
+    public void removeViewsInLayout(int start, int count) {
+        super.removeViewsInLayout(start, count);
+        InitData();
     }
 
     private void initView() {
@@ -182,7 +220,7 @@ public class LoopView extends FrameLayout{
             public void onAnimationEnd(Animator animation) {
                 selectItem=(int)(angle / (360 / size))%size;
                 if(selectItem<0){selectItem=size+selectItem;}
-                if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem);}
+                if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
             }
 
             @Override
@@ -247,7 +285,9 @@ public class LoopView extends FrameLayout{
         return super.dispatchTouchEvent(ev);
     }
 
-
+    public List<View> getViews() {
+        return views;
+    }
 
     public float getAngle() {
         return angle;
