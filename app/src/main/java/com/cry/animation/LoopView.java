@@ -9,7 +9,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,7 @@ import java.util.TimerTask;
  * Created by zxj on 15/5/20.
  * 水平旋转轮播控件
  */
-public class LoopView extends FrameLayout{
+public class LoopView extends RelativeLayout{
     Context con;
     ValueAnimator valueAnimator=null;//动画类
     GestureDetector mGestureDetector=null;//手势类
