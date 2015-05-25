@@ -66,7 +66,6 @@ public class LoopView extends RelativeLayout{
             list.get(i).bringToFront();
             list.get(i).setEnabled(i==(list.size()-1)&&angle%(360/size)==0 ? true:false);
         }
-
     }
     private class SortComparator implements Comparator<View> {
         @Override
@@ -118,49 +117,17 @@ public class LoopView extends RelativeLayout{
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        InitData();
+        if(changed){
+            InitData();
+            invate();
+        }
     }
+
+
     public void InitData() {
         initView();
-        invate();
         if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
     }
-    @Override
-    public void removeAllViews() {
-        super.removeAllViews();
-        InitData();
-    }
-
-    @Override
-    public void removeView(View view) {
-        super.removeView(view);
-        InitData();
-    }
-
-    @Override
-    public void removeViewAt(int index) {
-        super.removeViewAt(index);
-        InitData();
-    }
-
-    @Override
-    public void removeViewInLayout(View view) {
-        super.removeViewInLayout(view);
-        InitData();
-    }
-
-    @Override
-    public void removeViews(int start, int count) {
-        super.removeViews(start, count);
-        InitData();
-    }
-
-    @Override
-    public void removeViewsInLayout(int start, int count) {
-        super.removeViewsInLayout(start, count);
-        InitData();
-    }
-
     private void initView() {
         for (int i=0;i<views.size();i++){
             views.remove(i);
@@ -173,6 +140,7 @@ public class LoopView extends RelativeLayout{
     }
 
     private void restPosition() {
+        if(size==0){return;}
         float finall=0;
         float part =360/size;//一份的角度
         if(angle<0){
@@ -311,7 +279,7 @@ public class LoopView extends RelativeLayout{
     public int getSelectItem() {
         return selectItem;
     }
-     /*selecItem must > 0*/
+    /*selecItem must > 0*/
     public void setSelectItem(int selectItem) {
         if(selectItem>0) {
             this.selectItem = selectItem;
