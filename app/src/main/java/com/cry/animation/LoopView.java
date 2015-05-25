@@ -191,12 +191,14 @@ public class LoopView extends FrameLayout{
     }
 
     private boolean onTouch(MotionEvent event){
-        this.getParent().requestDisallowInterceptTouchEvent(true);//通知父控件勿拦截本控件
+        boolean sc=mGestureDetector.onTouchEvent(event);
+        if(sc){
+            this.getParent().requestDisallowInterceptTouchEvent(true);//通知父控件勿拦截本控件
+        }
         if (event.getAction()==MotionEvent.ACTION_UP){
             restPosition();
             return true;
         }
-        mGestureDetector.onTouchEvent(event);
         return true;
     }
 
