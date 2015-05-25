@@ -26,6 +26,7 @@ public class LoopView extends FrameLayout{
     Context con;
     ValueAnimator valueAnimator=null;//动画类
     GestureDetector mGestureDetector=null;//手势类
+    private int selectItem=0;//当前选择项
     private int   size=0;//个数
     private float r=200;//半径
     private float distance =4*r;//camera和观察的旋转物体距离， 距离越长,最大物体和最小物体比例越不明显
@@ -36,6 +37,9 @@ public class LoopView extends FrameLayout{
     List<View> views=new ArrayList<View>();//子view引用列表
 
     Handler handler=new Handler();
+
+    private OnItemSelectedListener onItemSelectedListener=null;
+
     public LoopView(Context context) {
         super(context);
         init(context);
@@ -99,6 +103,7 @@ public class LoopView extends FrameLayout{
         List<View> arr=new ArrayList<View>();
         for (int i=0;i<views.size();i++){
             arr.add(views.get(i));
+            views.get(i).setTag(i);
         }
         sortList(arr);
         postInvalidate();
@@ -116,6 +121,7 @@ public class LoopView extends FrameLayout{
         super.onLayout(changed, l, t, r, b);
         initView();
         invate();
+        if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem);}
     }
 
     private void initView() {
@@ -166,6 +172,30 @@ public class LoopView extends FrameLayout{
                 invate();
             }
         });
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                selectItem=(int)(angle / (360 / size))%size;
+                if(selectItem<0){selectItem=size+selectItem;}
+                if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem);}
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
         if(complete!=null){valueAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -205,7 +235,7 @@ public class LoopView extends FrameLayout{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        onTouch(event);
+        //onTouch(event);
         return true;
     }
 
@@ -239,9 +269,24 @@ public class LoopView extends FrameLayout{
         return r;
     }
 
+    public int getSelectItem() {
+        return selectItem;
+    }
+     /*selecItem must > 0*/
+    public void setSelectItem(int selectItem) {
+        if(selectItem>0) {
+            this.selectItem = selectItem;
+            if(size>0)AnimRotationTo(selectItem*(360/size), null);
+        }
+    }
+
     public void setR(float r) {
         this.r = r;
         this.distance=4*r;
+    }
+
+    public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
+        this.onItemSelectedListener = onItemSelectedListener;
     }
 
     public void setAutoRotation(boolean autoRotation) {

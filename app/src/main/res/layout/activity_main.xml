@@ -9,9 +9,9 @@
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
         android:background="#334e4e4e">
-      <include layout="@layout/item_view"></include>
-        <include layout="@layout/item_view"></include>
-        <include layout="@layout/item_view"></include>
+      <include layout="@layout/item_view0"></include>
+        <include layout="@layout/item_view1"></include>
+        <include layout="@layout/item_view2"></include>
 
     </com.cry.animation.LoopView>
 </LinearLayout>
