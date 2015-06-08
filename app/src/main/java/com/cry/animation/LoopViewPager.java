@@ -62,7 +62,7 @@ public class LoopViewPager extends FrameLayout{
         return new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                if(distence>-pagerwidth&&distence<pagerwidth) {  distence+=-distanceX;}
+                if(distence>-pagerwidth&&distence<pagerwidth&&list.size()>1) {  distence+=-distanceX;}
                 try {
                     invate();
                 } catch (Exception e) {
@@ -236,10 +236,13 @@ public class LoopViewPager extends FrameLayout{
         return item;
     }
 
-    public void setAutoChange(boolean change){
+    public void setAutoChange(boolean change) throws Exception {
         autoChange=change;
         if(change) {
             if(timer==null) {
+                if(list.size()<=1){
+                    throw new Exception("this size must more than 1");
+                }
                 timer = new Timer();
                 task = new TimerTask() {
                     @Override

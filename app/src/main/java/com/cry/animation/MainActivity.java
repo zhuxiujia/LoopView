@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class MainActivity extends ActionBarActivity {
         pager=(LoopViewPager)findViewById(R.id.loopViewPager);
         List<View> arr=new ArrayList<View>();
 
-        for (int i=0;i<3;i++){
+        for (int i=0;i<1;i++){
             TextView textView=new TextView(this);
             textView.setText("第" + i + "个");
             textView.setBackgroundResource(R.drawable.image_red);
@@ -29,7 +30,12 @@ public class MainActivity extends ActionBarActivity {
             arr.add(textView);
         }
         pager.setList(arr);
-        pager.setAutoChange(true);
+        try {
+            pager.setAutoChange(true);
+        } catch (Exception e) {
+            Toast.makeText(this,""+e.toString(),1000).show();
+            e.printStackTrace();
+        }
 
         loopView=(LoopView)findViewById(R.id.loopView);
         loopView.setAutoRotationTime(3*1000);
