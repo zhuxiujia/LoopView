@@ -126,7 +126,7 @@ public class LoopView extends RelativeLayout{
 
     public void InitData() {
         initView();
-        if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
+        if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem, views.get(selectItem));}
     }
     private void initView() {
         for (int i=0;i<views.size();i++){

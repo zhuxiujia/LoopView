@@ -1,17 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
-    <com.cry.animation.LoopView
-        android:id="@+id/loopview"
+    <com.cry.animation.LoopViewPager
+        android:id="@+id/loopViewPager"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="200dp"
         android:gravity="center_vertical"
         android:background="#334e4e4e">
-      <include layout="@layout/item_view0"></include>
+    </com.cry.animation.LoopViewPager>
+    <com.cry.animation.LoopView
+        android:id="@+id/loopView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <include layout="@layout/item_view0"></include>
         <include layout="@layout/item_view1"></include>
         <include layout="@layout/item_view2"></include>
-
     </com.cry.animation.LoopView>
 </LinearLayout>
