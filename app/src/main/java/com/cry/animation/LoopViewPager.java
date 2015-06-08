@@ -34,6 +34,7 @@ public class LoopViewPager extends FrameLayout{
     private Timer timer=null;
     private TimerTask task=null;
     private boolean autoChange=false;
+    private long autoChangeTime=3000;//旋转时间
     private ViewGroup.LayoutParams layoutParams=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     private OnItemSelectedListener onItemSelectedListener=null;
 
@@ -260,7 +261,7 @@ public class LoopViewPager extends FrameLayout{
 
                     }
                 };
-                timer.schedule(task, 0, 3000);
+                timer.schedule(task, 0, autoChangeTime);
             }
         }else{
             try{ timer.cancel();
@@ -268,6 +269,14 @@ public class LoopViewPager extends FrameLayout{
             }catch (Exception e){}
             setCurrentItem(0);
         }
+    }
+
+    public void setAutoChangeTime(long autoChangeTime) {
+        this.autoChangeTime = autoChangeTime;
+    }
+
+    public long getAutoChangeTime() {
+        return autoChangeTime;
     }
 
     public boolean isAutoChange() {
