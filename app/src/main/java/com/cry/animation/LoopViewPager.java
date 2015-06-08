@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
@@ -33,7 +34,7 @@ public class LoopViewPager extends FrameLayout{
     private Timer timer=null;
     private TimerTask task=null;
     private boolean autoChange=false;
-
+    private ViewGroup.LayoutParams layoutParams=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     private OnItemSelectedListener onItemSelectedListener=null;
 
     public LoopViewPager(Context context) {
@@ -73,6 +74,8 @@ public class LoopViewPager extends FrameLayout{
     }
 
     public void setList(List<View> list) {
+        try{setAutoChange(false);}catch (Exception e){}
+        try{removeAllViews();}catch (Exception e){}
         this.list = list;
         try {
             invate();
@@ -137,10 +140,10 @@ public class LoopViewPager extends FrameLayout{
              }
          }
         if(distence!=0){
-            if(distence<0)try{this.addView(list.get(getFirstItem(item)));}catch (Exception e){}
-            if(distence>0)try{this.addView(list.get(getLastItem(item)));}catch (Exception e){}
+            if(distence<0)try{this.addView(list.get(getFirstItem(item)),layoutParams);}catch (Exception e){}
+            if(distence>0)try{this.addView(list.get(getLastItem(item)),layoutParams);}catch (Exception e){}
         }
-        try{this.addView(list.get(item));}catch (Exception e){}
+        try{this.addView(list.get(item),layoutParams);}catch (Exception e){}
     }
     private View addFirstView(){
        return list.get(getFirstItem(item));
@@ -236,26 +239,30 @@ public class LoopViewPager extends FrameLayout{
     public void setAutoChange(boolean change){
         autoChange=change;
         if(change) {
-            timer = new Timer();
-            task = new TimerTask() {
-                @Override
-                public void run() {
-                    Log.i("ds", "first:" + item + ":child:" + getChildCount());
-                    hand.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                AnimationTo(0, -pagerwidth);
-                            } catch (Exception e) {
+            if(timer==null) {
+                timer = new Timer();
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        Log.i("ds", "first:" + item + ":child:" + getChildCount());
+                        hand.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    AnimationTo(0, -pagerwidth);
+                                } catch (Exception e) {
+                                }
                             }
-                        }
-                    });
+                        });
 
-                }
-            };
-            timer.schedule(task, 0, 3000);
+                    }
+                };
+                timer.schedule(task, 0, 3000);
+            }
         }else{
-            try{ timer.cancel();}catch (Exception e){}
+            try{ timer.cancel();
+            timer=null;
+            }catch (Exception e){}
             setCurrentItem(0);
         }
     }
