@@ -29,16 +29,14 @@ public class LoopView extends RelativeLayout{
     private int selectItem=0;//当前选择项
     private int   size=0;//个数
     private float r=200;//半径
-    private float distance =4*r;//camera和观察的旋转物体距离， 距离越长,最大物体和最小物体比例越不明显
+    private float distance =3*r;//camera和观察的旋转物体距离， 距离越长,最大物体和最小物体比例越不明显
     private float angle=0;//角度
     private Timer timer=null;//自动旋转timer
     private boolean autoRotation=false;//自动旋转
     private long autoRotationTime=3000;//旋转时间
     List<View> views=new ArrayList<View>();//子view引用列表
-
     Handler handler=new Handler();
-
-    private OnItemSelectedListener onItemSelectedListener=null;
+    private OnItemSelectedListener onItemSelectedListener=null;//选择事件接口
 
     public LoopView(Context context) {
         super(context);
@@ -105,7 +103,7 @@ public class LoopView extends RelativeLayout{
             views.get(i).setTag(i);
         }
         sortList(arr);
-        postInvalidate();
+        //postInvalidate();
     }
 
     @Override
@@ -117,16 +115,31 @@ public class LoopView extends RelativeLayout{
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if(changed){
-            InitData();
-            invate();
-        }
+       if(changed){
+           InitData();
+           RAnimation();
+       }
+    }
+
+    ValueAnimator ranimation=null;
+    private void RAnimation() {
+        ranimation=ValueAnimator.ofFloat(0,r);
+        ranimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+               r = (Float) valueAnimator.getAnimatedValue();
+                invate();
+            }
+        });
+        ranimation.setInterpolator(new DecelerateInterpolator());
+        ranimation.setDuration(3000);
+        ranimation.start();
     }
 
 
     public void InitData() {
         initView();
-        if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem, views.get(selectItem));}
+        if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
     }
     private void initView() {
         for (int i=0;i<views.size();i++){
@@ -279,7 +292,7 @@ public class LoopView extends RelativeLayout{
     public int getSelectItem() {
         return selectItem;
     }
-    /*selecItem must > 0*/
+     /*selecItem must > 0*/
     public void setSelectItem(int selectItem) {
         if(selectItem>0) {
             this.selectItem = selectItem;
@@ -289,7 +302,7 @@ public class LoopView extends RelativeLayout{
 
     public void setR(float r) {
         this.r = r;
-        this.distance=4*r;
+        distance=3*r;
     }
 
     public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
