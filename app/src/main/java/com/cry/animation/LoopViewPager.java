@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,6 +33,7 @@ public class LoopViewPager extends FrameLayout{
     private Timer timer=null;
     private TimerTask task=null;
     private boolean autoChange=false;
+    private boolean onScrolling=false;
     private long autoChangeTime=3000;//旋转时间
     private ViewGroup.LayoutParams layoutParams=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     private OnItemSelectedListener onItemSelectedListener=null;
@@ -69,6 +69,7 @@ public class LoopViewPager extends FrameLayout{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                onScrolling=true;
                 return true;
             }
         };
@@ -158,7 +159,7 @@ public class LoopViewPager extends FrameLayout{
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         mGestureDetector.onTouchEvent(ev);
-        if(ev.getAction()==MotionEvent.ACTION_UP){
+        if(ev.getAction()==MotionEvent.ACTION_UP||ev.getAction()==MotionEvent.ACTION_CANCEL){
             if(distence>pagerwidth/2){
                 AnimationTo(distence,pagerwidth);
             }else if(distence<-pagerwidth/2){
@@ -166,6 +167,7 @@ public class LoopViewPager extends FrameLayout{
             }else{
                 AnimationTo(distence,0);
             }
+            onScrolling=false;
         }
         return super.dispatchTouchEvent(ev);
     }
@@ -248,12 +250,12 @@ public class LoopViewPager extends FrameLayout{
                 task = new TimerTask() {
                     @Override
                     public void run() {
-                        Log.i("ds", "first:" + item + ":child:" + getChildCount());
+                        //Log.i("ds", "first:" + item + ":child:" + getChildCount());
                         hand.post(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    AnimationTo(0, -pagerwidth);
+                                   if(!onScrolling) AnimationTo(0, -pagerwidth);
                                 } catch (Exception e) {
                                 }
                             }
