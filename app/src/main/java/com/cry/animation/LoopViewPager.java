@@ -251,16 +251,19 @@ public class LoopViewPager extends FrameLayout{
                     @Override
                     public void run() {
                         //Log.i("ds", "first:" + item + ":child:" + getChildCount());
-                        hand.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                   if(!onScrolling) AnimationTo(0, -pagerwidth);
-                                } catch (Exception e) {
+                        try {
+                            hand.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        if (!onScrolling) AnimationTo(0, -pagerwidth);
+                                    } catch (Exception e) {
+                                    }
                                 }
-                            }
-                        });
-
+                            });
+                        }catch (Exception e){
+                            try{task.cancel();}catch (Exception e2){}
+                        }
                     }
                 };
                 timer.schedule(task, 0, autoChangeTime);

@@ -103,6 +103,7 @@ public class LoopView extends RelativeLayout{
             views.get(i).setTag(i);
         }
         sortList(arr);
+        postInvalidate();
     }
 
     @Override
@@ -131,7 +132,7 @@ public class LoopView extends RelativeLayout{
             }
         });
         ranimation.setInterpolator(new DecelerateInterpolator());
-        ranimation.setDuration(3000);
+        ranimation.setDuration(2000);
         ranimation.start();
     }
 
