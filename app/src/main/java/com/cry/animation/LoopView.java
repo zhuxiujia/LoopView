@@ -80,7 +80,7 @@ public class LoopView extends RelativeLayout{
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
                 //Log.i("ds","distance:"+distanceX);
-                angle+=distanceX/6;
+                angle+=distanceX/4;
                 invate();
                 return true;
             }
@@ -103,7 +103,6 @@ public class LoopView extends RelativeLayout{
             views.get(i).setTag(i);
         }
         sortList(arr);
-        //postInvalidate();
     }
 
     @Override
@@ -156,8 +155,7 @@ public class LoopView extends RelativeLayout{
         if(size==0){return;}
         float finall=0;
         float part =360/size;//一份的角度
-        if(angle<0){
-            part =-part;}
+        if(angle<0){part =-part;}
         float minvalue= (int)(angle/ part)* part;//最小角度
         float maxvalue=(int)(angle/ part)* part + part;//最大角度
         if(angle>=0) {//分为是否小于0的情况
@@ -243,7 +241,7 @@ public class LoopView extends RelativeLayout{
         if(sc){
             this.getParent().requestDisallowInterceptTouchEvent(true);//通知父控件勿拦截本控件
         }
-        if (event.getAction()==MotionEvent.ACTION_UP){
+        if (event.getAction()==MotionEvent.ACTION_UP||event.getAction()==MotionEvent.ACTION_CANCEL){
             restPosition();
             return true;
         }
