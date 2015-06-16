@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,8 +34,7 @@ public class LoopViewPager extends FrameLayout{
     private Timer timer=null;
     private TimerTask task=null;
     private boolean autoChange=false;
-    private boolean onScrolling=false;
-    private long autoChangeTime=3000;//旋转时间
+    private long autoChangeTime=4000;//旋转时间
     private ViewGroup.LayoutParams layoutParams=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     private OnItemSelectedListener onItemSelectedListener=null;
 
@@ -69,7 +69,6 @@ public class LoopViewPager extends FrameLayout{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                onScrolling=true;
                 return true;
             }
         };
@@ -153,9 +152,7 @@ public class LoopViewPager extends FrameLayout{
     private View addLastView(){
         return list.get(getLastItem(item));
     }
-    private View addItemView(){
-        return null;
-    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         mGestureDetector.onTouchEvent(ev);
@@ -167,7 +164,12 @@ public class LoopViewPager extends FrameLayout{
             }else{
                 AnimationTo(distence,0);
             }
-            onScrolling=false;
+            if(autoChange){
+                try{setAuto(true);}catch (Exception e){}
+            }
+            Log.i("ds","motion: up");
+        }else{
+                try{setAuto(false);}catch (Exception e){}
         }
         return super.dispatchTouchEvent(ev);
     }
@@ -182,7 +184,7 @@ public class LoopViewPager extends FrameLayout{
     private void AnimationTo(float from,float to){
         if(from==to){return;}
         valueAnimator=ValueAnimator.ofFloat(from, to);
-        valueAnimator.setDuration(300);
+        valueAnimator.setDuration(500);
         valueAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -239,9 +241,13 @@ public class LoopViewPager extends FrameLayout{
         return item;
     }
 
-    public void setAutoChange(boolean change) throws Exception {
+    public void setAutoChange(boolean change) {
         autoChange=change;
-        if(change) {
+        try{ setAuto(autoChange);}catch (Exception e){}
+    }
+
+    private void setAuto(boolean auto) throws Exception{
+        if(auto) {
             if(timer==null) {
                 if(list.size()<=1){
                     throw new Exception("this size must more than 1");
@@ -256,23 +262,24 @@ public class LoopViewPager extends FrameLayout{
                                 @Override
                                 public void run() {
                                     try {
-                                        if (!onScrolling) AnimationTo(0, -pagerwidth);
+                                            AnimationTo(distence, -pagerwidth);
                                     } catch (Exception e) {
                                     }
                                 }
                             });
                         }catch (Exception e){
-                            try{task.cancel();}catch (Exception e2){}
+                            try{task.cancel();timer=null;}catch (Exception e2){}
                         }
                     }
                 };
-                timer.schedule(task, 0, autoChangeTime);
+                timer.schedule(task, autoChangeTime, autoChangeTime);
             }
         }else{
-            try{ timer.cancel();
-            timer=null;
+            try{
+                if(timer!=null){
+                timer.cancel();
+                timer=null;}
             }catch (Exception e){}
-            setCurrentItem(0);
         }
     }
 
