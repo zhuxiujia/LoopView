@@ -122,7 +122,8 @@ public class LoopView extends RelativeLayout{
     }
 
     ValueAnimator ranimation=null;
-    private void RAnimation() {
+    public void RAnimation() {
+        if(ranimation!=null){if(ranimation.isRunning()==true){return;}}
         ranimation=ValueAnimator.ofFloat(0,r);
         ranimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

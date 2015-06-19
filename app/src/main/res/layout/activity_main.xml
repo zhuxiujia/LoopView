@@ -14,9 +14,13 @@
     <com.cry.animation.LoopView
         android:id="@+id/loopView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content">
         <include layout="@layout/item_view0"></include>
         <include layout="@layout/item_view1"></include>
         <include layout="@layout/item_view2"></include>
     </com.cry.animation.LoopView>
+
+
+
+
 </LinearLayout>

@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -167,7 +166,6 @@ public class LoopViewPager extends FrameLayout{
             if(autoChange){
                 try{setAuto(true);}catch (Exception e){}
             }
-            Log.i("ds","motion: up");
         }else{
                 try{setAuto(false);}catch (Exception e){}
         }
