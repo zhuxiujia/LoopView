@@ -24,7 +24,8 @@ import java.util.TimerTask;
  */
 public class LoopView extends RelativeLayout{
     Context con;
-    ValueAnimator valueAnimator=null;//动画类
+    ValueAnimator restAnimator =null;//回位动画
+    ValueAnimator rAnimation =null;//半径动画
     GestureDetector mGestureDetector=null;//手势类
     private int selectItem=0;//当前选择项
     private int   size=0;//个数
@@ -120,21 +121,19 @@ public class LoopView extends RelativeLayout{
            RAnimation();
        }
     }
-
-    ValueAnimator ranimation=null;
     public void RAnimation() {
-        if(ranimation!=null){if(ranimation.isRunning()==true){return;}}
-        ranimation=ValueAnimator.ofFloat(0,r);
-        ranimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        if(rAnimation !=null){if(rAnimation.isRunning()==true){return;}}
+        rAnimation =ValueAnimator.ofFloat(0,r);
+        rAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-               r = (Float) valueAnimator.getAnimatedValue();
+                r = (Float) valueAnimator.getAnimatedValue();
                 invate();
             }
         });
-        ranimation.setInterpolator(new DecelerateInterpolator());
-        ranimation.setDuration(2000);
-        ranimation.start();
+        rAnimation.setInterpolator(new DecelerateInterpolator());
+        rAnimation.setDuration(2000);
+        rAnimation.start();
     }
 
 
@@ -179,18 +178,18 @@ public class LoopView extends RelativeLayout{
 
     private void AnimRotationTo(float finall, final Runnable complete){
         if(angle==finall){return;}
-        valueAnimator= ValueAnimator.ofFloat(angle,finall);
-        valueAnimator.setInterpolator(new DecelerateInterpolator());
-        valueAnimator.setDuration(300);
+        restAnimator = ValueAnimator.ofFloat(angle,finall);
+        restAnimator.setInterpolator(new DecelerateInterpolator());
+        restAnimator.setDuration(300);
 
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        restAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 angle = (Float) animation.getAnimatedValue();
                 invate();
             }
         });
-        valueAnimator.addListener(new Animator.AnimatorListener() {
+        restAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -198,9 +197,13 @@ public class LoopView extends RelativeLayout{
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                selectItem=(int)(angle / (360 / size))%size;
-                if(selectItem<0){selectItem=size+selectItem;}
-                if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
+                selectItem = (int) (angle / (360 / size)) % size;
+                if (selectItem < 0) {
+                    selectItem = size + selectItem;
+                }
+                if (onItemSelectedListener != null) {
+                    onItemSelectedListener.selected(selectItem, views.get(selectItem));
+                }
             }
 
             @Override
@@ -214,7 +217,8 @@ public class LoopView extends RelativeLayout{
             }
         });
 
-        if(complete!=null){valueAnimator.addListener(new Animator.AnimatorListener() {
+        if(complete!=null){
+            restAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -235,7 +239,7 @@ public class LoopView extends RelativeLayout{
 
             }
         });}
-        valueAnimator.start();
+        restAnimator.start();
     }
 
     private boolean onTouch(MotionEvent event){
