@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,7 @@ public class LoopViewPager extends FrameLayout{
     private GestureDetector mGestureDetector;//手势
     private int item=0;//滑动项目
     private float distence=0;//距离
+    float last_distence=0;//记录上次按下的距离
     private ValueAnimator valueAnimator=null;//切换动画
     private Handler hand=new Handler();
     private Timer timer=null;
@@ -151,14 +153,16 @@ public class LoopViewPager extends FrameLayout{
     private View addLastView(){
         return list.get(getLastItem(item));
     }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        if(ev.getAction()==MotionEvent.ACTION_DOWN){
+            last_distence=distence;
+        }
         mGestureDetector.onTouchEvent(ev);
         if(ev.getAction()==MotionEvent.ACTION_UP||ev.getAction()==MotionEvent.ACTION_CANCEL){
-            if(distence>pagerwidth/2){
+            if(last_distence<distence){
                 AnimationTo(distence,pagerwidth);
-            }else if(distence<-pagerwidth/2){
+            }else if(last_distence>distence){
                 AnimationTo(distence,-pagerwidth);
             }else{
                 AnimationTo(distence,0);
@@ -166,6 +170,7 @@ public class LoopViewPager extends FrameLayout{
             if(autoChange){
                 try{setAuto(true);}catch (Exception e){}
             }
+            Log.i("ds","motion: up");
         }else{
                 try{setAuto(false);}catch (Exception e){}
         }

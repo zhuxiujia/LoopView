@@ -32,6 +32,7 @@ public class LoopView extends RelativeLayout{
     private float r=200;//半径
     private float distance =3*r;//camera和观察的旋转物体距离， 距离越长,最大物体和最小物体比例越不明显
     private float angle=0;//角度
+    private float last_angle=0;
     private Timer timer=null;//自动旋转timer
     private boolean autoRotation=false;//自动旋转
     private long autoRotationTime=3000;//旋转时间
@@ -160,13 +161,13 @@ public class LoopView extends RelativeLayout{
         float minvalue= (int)(angle/ part)* part;//最小角度
         float maxvalue=(int)(angle/ part)* part + part;//最大角度
         if(angle>=0) {//分为是否小于0的情况
-            if (angle > (minvalue + part / 2)) {
+            if (angle-last_angle>0) {
                 finall = maxvalue;
             } else {
                 finall = minvalue;
             }
         }else{
-            if (angle < (minvalue + part / 2)) {
+            if (angle-last_angle<0) {
                 finall = maxvalue;
             } else {
                 finall = minvalue;
@@ -243,6 +244,7 @@ public class LoopView extends RelativeLayout{
     }
 
     private boolean onTouch(MotionEvent event){
+        if(event.getAction()==MotionEvent.ACTION_DOWN){last_angle=angle;}
         boolean sc=mGestureDetector.onTouchEvent(event);
         if(sc){
             this.getParent().requestDisallowInterceptTouchEvent(true);//通知父控件勿拦截本控件
