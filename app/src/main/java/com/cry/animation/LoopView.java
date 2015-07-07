@@ -36,6 +36,7 @@ public class LoopView extends RelativeLayout{
     private Timer timer=null;//自动旋转timer
     private boolean autoRotation=false;//自动旋转
     private long autoRotationTime=3000;//旋转时间
+    private boolean touching=false;//正在触摸
     List<View> views=new ArrayList<View>();//子view引用列表
     Handler handler=new Handler();
     private OnItemSelectedListener onItemSelectedListener=null;//选择事件接口
@@ -186,8 +187,8 @@ public class LoopView extends RelativeLayout{
         restAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                angle = (Float) animation.getAnimatedValue();
-                invate();
+                if(touching==false){angle = (Float) animation.getAnimatedValue();
+                invate();}
             }
         });
         restAnimator.addListener(new Animator.AnimatorListener() {
@@ -198,12 +199,14 @@ public class LoopView extends RelativeLayout{
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                selectItem = (int) (angle / (360 / size)) % size;
-                if (selectItem < 0) {
-                    selectItem = size + selectItem;
-                }
-                if (onItemSelectedListener != null) {
-                    onItemSelectedListener.selected(selectItem, views.get(selectItem));
+                if(touching==false) {
+                    selectItem = (int) (angle / (360 / size)) % size;
+                    if (selectItem < 0) {
+                        selectItem = size + selectItem;
+                    }
+                    if (onItemSelectedListener != null) {
+                        onItemSelectedListener.selected(selectItem, views.get(selectItem));
+                    }
                 }
             }
 
@@ -244,12 +247,13 @@ public class LoopView extends RelativeLayout{
     }
 
     private boolean onTouch(MotionEvent event){
-        if(event.getAction()==MotionEvent.ACTION_DOWN){last_angle=angle;}
+        if(event.getAction()==MotionEvent.ACTION_DOWN){last_angle=angle;touching=true;}
         boolean sc=mGestureDetector.onTouchEvent(event);
         if(sc){
             this.getParent().requestDisallowInterceptTouchEvent(true);//通知父控件勿拦截本控件
         }
         if (event.getAction()==MotionEvent.ACTION_UP||event.getAction()==MotionEvent.ACTION_CANCEL){
+            touching=false;
             restPosition();
             return true;
         }
