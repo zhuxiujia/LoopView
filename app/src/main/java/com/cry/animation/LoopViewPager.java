@@ -186,40 +186,45 @@ public class LoopViewPager extends FrameLayout{
 
     private void AnimationTo(float from,float to){
         if(from==to){return;}
-        valueAnimator=ValueAnimator.ofFloat(from, to);
-        valueAnimator.setDuration(500);
-        valueAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+        try {
+            valueAnimator = ValueAnimator.ofFloat(from, to);
+            valueAnimator.setDuration(500);
+            valueAnimator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if(onItemSelectedListener!=null){onItemSelectedListener.selected(item, list.get(item));}
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                distence = (Float) animation.getAnimatedValue();
-                try {
-                    invate();
-                } catch (Exception e) {
                 }
-            }
-        });
-        valueAnimator.start();
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (onItemSelectedListener != null) {
+                        onItemSelectedListener.selected(item, list.get(item));
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    try {
+                        distence = (Float) animation.getAnimatedValue();
+                        invate();
+                    } catch (Exception e) {
+                    }
+                }
+            });
+            valueAnimator.start();
+        }catch (Exception e){
+        }
     }
 
     private int getFirstItem(int _item){
