@@ -5,7 +5,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +20,15 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+
+
         //LoopViewPager 使用方法---------------------------------------------
         pager=(LoopViewPager)findViewById(R.id.loopViewPager);
-        List<View> arr=new ArrayList<View>();
-        for (int i=0;i<3;i++){//准备给ViewPager 设置要添加的View
-            View v= LayoutInflater.from(this).inflate(R.layout.item_pager,null);
-            TextView textView=(TextView)v.findViewById(R.id.textView);
-            textView.setText("index"+i);
-            arr.add(v);
-        }
-        pager.setList(arr);//设置ViewList
+        pager.setList(getViewList());//设置ViewList
         try {
             pager.setAutoChange(true);//设置自动切换页面
         } catch (Exception e) {
-            Toast.makeText(this,""+e.toString(),Toast.LENGTH_LONG).show();
+           e.printStackTrace();
         }
 
 
@@ -44,5 +38,18 @@ public class MainActivity extends ActionBarActivity {
         loopView.setAutoRotationTime(3*1000);//设置自动旋转时间
         loopView.setAutoRotation(true);//启动自动旋转
         loopView.setR(200);//设置半径
+        //loopView.RAnimation();//半径动画
+    }
+
+    /*准备给ViewPager 设置要添加的View*/
+    private List<View> getViewList() {
+        List<View> arr=new ArrayList<View>();
+        for (int i=0;i<3;i++){
+            View v= LayoutInflater.from(this).inflate(R.layout.item_pager,null);
+            TextView textView=(TextView)v.findViewById(R.id.textView);
+            textView.setText("index"+i);
+            arr.add(v);
+        }
+        return arr;
     }
 }

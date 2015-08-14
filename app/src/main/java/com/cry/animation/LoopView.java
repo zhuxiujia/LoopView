@@ -3,7 +3,6 @@ package com.cry.animation;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -15,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by zxj on 15/5/20.
@@ -33,12 +30,15 @@ public class LoopView extends RelativeLayout{
     private float distance =3*r;//camera和观察的旋转物体距离， 距离越长,最大物体和最小物体比例越不明显
     private float angle=0;//角度
     private float last_angle=0;
-    private Timer timer=null;//自动旋转timer
     private boolean autoRotation=false;//自动旋转
-    private long autoRotationTime=3000;//旋转时间
     private boolean touching=false;//正在触摸
     List<View> views=new ArrayList<View>();//子view引用列表
-    Handler handler=new Handler();
+    LoopHandler loopHandler=new LoopHandler(3000) {
+        @Override
+        void du() {
+            try{if(size!=0)AnimRotationTo(angle-360/size,null);}catch (Exception e){}
+        }
+    };
     private OnItemSelectedListener onItemSelectedListener=null;//选择事件接口
 
     public LoopView(Context context) {
@@ -320,37 +320,15 @@ public class LoopView extends RelativeLayout{
     }
 
     public void setAutoRotation(boolean autoRotation) {
-        try{timer.cancel();
-            timer=null;}catch (Exception e){}
-        this.autoRotation = autoRotation;
-        angle=0;
-        invate();
-        if(autoRotation){
-            timer=  new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(size!=0)AnimRotationTo(angle-360/size,null);
-                        }
-                    });
-                }
-            }, 0,autoRotationTime);
-        }else{
-            try{ timer.cancel();
-                timer=null;}catch (Exception e){}
-        }
+        loopHandler.setLoop(autoRotation);
     }
 
     public long getAutoRotationTime() {
-        return autoRotationTime;
+        return loopHandler.loopTime;
     }
 
     public void setAutoRotationTime(long autoRotationTime) {
-        this.autoRotationTime = autoRotationTime;
+        loopHandler.setLoopTime(autoRotationTime);
     }
 
     public boolean isAutoRotation() {
