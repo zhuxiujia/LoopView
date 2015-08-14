@@ -1,10 +1,14 @@
-package com.cry.animation;
+package com.cry.animation.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import com.cry.animation.LoopView;
+import com.cry.animation.LoopViewPager;
+import com.cry.animation.R;
 
 import java.util.ArrayList;
 import java.util.List;
