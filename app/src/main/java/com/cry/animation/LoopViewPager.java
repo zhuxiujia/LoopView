@@ -192,7 +192,11 @@ public class LoopViewPager extends FrameLayout{
         }else{
             if(autoChange)try{setAuto(false);}catch (Exception e){}
         }
-        return super.dispatchTouchEvent(ev);
+        if (Math.abs(ev.getX() - last_touch_point) > 20) {
+            return true;
+        } else {
+            return super.dispatchTouchEvent(ev);
+        }
     }
 
     @Override
