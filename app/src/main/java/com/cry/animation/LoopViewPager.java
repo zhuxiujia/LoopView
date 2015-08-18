@@ -174,6 +174,7 @@ public class LoopViewPager extends FrameLayout{
     }
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        try{if(list.size()<=1){return super.dispatchTouchEvent(ev);}}catch (Exception e){}
         if(ev.getAction()==MotionEvent.ACTION_DOWN){
             touching=true;
             last_touch_point= (int) ev.getX();
@@ -265,6 +266,7 @@ public class LoopViewPager extends FrameLayout{
     }
 
     public void setAutoChange(boolean change) {
+        if(list.size()<=1){return;}
         autoChange=change;
         try{ setAuto(autoChange);}catch (Exception e){}
     }
