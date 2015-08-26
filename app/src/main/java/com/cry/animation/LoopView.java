@@ -20,13 +20,14 @@ import java.util.List;
  * 水平旋转轮播控件
  */
 public class LoopView extends RelativeLayout{
+    final static int LoopR=200;;
     Context con;
     ValueAnimator restAnimator =null;//回位动画
     ValueAnimator rAnimation =null;//半径动画
     GestureDetector mGestureDetector=null;//手势类
     private int selectItem=0;//当前选择项
     private int   size=0;//个数
-    private float r=200;//半径
+    private float r=LoopR;//半径
     private float distance =3*r;//camera和观察的旋转物体距离， 距离越长,最大物体和最小物体比例越不明显
     private float angle=0;//角度
     private float last_angle=0;
@@ -35,7 +36,7 @@ public class LoopView extends RelativeLayout{
     List<View> views=new ArrayList<View>();//子view引用列表
     LoopHandler loopHandler=new LoopHandler(3000) {
         @Override
-        void du() {
+        public void du() {
             try{if(size!=0)AnimRotationTo(angle-360/size,null);}catch (Exception e){}
         }
     };
@@ -73,7 +74,7 @@ public class LoopView extends RelativeLayout{
         public int compare(View lhs, View rhs) {
             int result=0;
             try {
-                result=(int)(100*lhs.getScaleX() -100*rhs.getScaleX());
+                result=(int)(1000*lhs.getScaleX() -1000*rhs.getScaleX());
             }catch (Exception e){}
             return result;
         }
@@ -124,8 +125,15 @@ public class LoopView extends RelativeLayout{
        }
     }
     public void RAnimation() {
-        if(rAnimation !=null){if(rAnimation.isRunning()==true){return;}}
-        rAnimation =ValueAnimator.ofFloat(0,r);
+       RAnimation(1f,LoopR);
+    }
+    public void RAnimation(boolean fromZero) {
+        if(fromZero){RAnimation(1f,LoopR);}else {
+            RAnimation(LoopR,1f);
+        }
+    }
+    public void RAnimation(float from,float to) {
+        rAnimation=ValueAnimator.ofFloat(from,to);
         rAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -200,7 +208,7 @@ public class LoopView extends RelativeLayout{
             @Override
             public void onAnimationEnd(Animator animation) {
                 if(touching==false) {
-                    selectItem = (int) (angle / (360 / size)) % size;
+                    selectItem = calculateItem();
                     if (selectItem < 0) {
                         selectItem = size + selectItem;
                     }
@@ -244,6 +252,10 @@ public class LoopView extends RelativeLayout{
             }
         });}
         restAnimator.start();
+    }
+
+    private int calculateItem() {
+        return (int) (angle / (360 / size)) % size;
     }
 
     private boolean onTouch(MotionEvent event){

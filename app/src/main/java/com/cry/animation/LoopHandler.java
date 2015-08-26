@@ -31,7 +31,9 @@ public abstract class LoopHandler extends Handler{
 
     public void setLoop(boolean loop){
         this.loop=loop;
-        if(loop)sendMsg();
+        if(loop){sendMsg();}else {
+            try{removeMessages(msgid);}catch (Exception e){}
+        }
     }
 
     private void sendMsg(){
@@ -56,5 +58,5 @@ public abstract class LoopHandler extends Handler{
         return loop;
     }
 
-    abstract void  du();
+    public abstract void  du();
 }
