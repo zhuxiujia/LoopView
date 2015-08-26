@@ -1,4 +1,4 @@
-package com.cry.animation;
+package com.cry.animation.library;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;

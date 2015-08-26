@@ -9,7 +9,7 @@
 *可直接在xml添加元素即可添加列数据。无需编写代码添加<br />
 *优良的兼容性，和尺寸控制<br />
 ##如何使用？
-`<com.cry.animation.LoopView`<br />
+`<com.cry.animation.library.LoopView`<br />
         `android:layout_width="fill_parent"`<br />
         `android:layout_height="fill_parent"`<br />
         `android:gravity="center_vertical"`<br />
@@ -20,7 +20,7 @@
        `android:layout_height="200dp"`<br />
         `/>`<br />
        `...............`<br />
- `</com.cry.animation.LoopView>`
+ `</com.cry.animation.library.LoopView>`
 ##问题反馈和联系方式
 qq:347284221<br />
 邮箱:zhuxiujia@qq.com<br />
