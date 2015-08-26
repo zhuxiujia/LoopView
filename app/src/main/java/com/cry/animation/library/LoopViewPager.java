@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,7 +38,7 @@ public class LoopViewPager extends FrameLayout{
     int last_touch_point=0;//上次点击
     int  position=0;//now view x position
 
-    LoopHandler loopHandler=new LoopHandler(2000) {
+    LoopHandler loopHandler=new LoopHandler(4000) {
         @Override
         public void du() {
             try{if(horizontal){AnimationTo(getScrollX(), (getScrollX()/pagerWidth+1) * pagerWidth);}else {
@@ -247,6 +246,7 @@ public class LoopViewPager extends FrameLayout{
         mGestureDetector.onTouchEvent(ev);
         if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
             touching = false;
+            if(Math.abs(ev.getX()-last_touch_point)>10){
             if (horizontal) {
                 if (ev.getX() - last_touch_point < 0) {//left
                     AnimationTo(getScrollX(), (position + 1) * pagerWidth);
@@ -259,6 +259,8 @@ public class LoopViewPager extends FrameLayout{
                 } else {//right
                     AnimationTo(getScrollY(), (position) * pagerHeight);
                 }
+            }}else {
+               backToAutoChange();
             }
         }
         if (Math.abs(ev.getX() - last_touch_point) > 20&&horizontal==true) {
@@ -267,6 +269,16 @@ public class LoopViewPager extends FrameLayout{
            return true;
         }else {
             return super.dispatchTouchEvent(ev);
+        }
+    }
+
+    private void backToAutoChange() {
+        if(autoChange){
+            try {
+                setAuto(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -289,11 +301,10 @@ public class LoopViewPager extends FrameLayout{
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
+                    backToAutoChange();
                     if (onItemSelectedListener != null) {
                         onItemSelectedListener.selected(item, list.get(item));
                     }
-                    if(autoChange){try{setAuto(autoChange);}catch (Exception e){}}
-                    Log.i("ds","item:"+item);
                 }
 
                 @Override
