@@ -125,10 +125,10 @@ public class LoopView extends RelativeLayout{
        }
     }
     public void RAnimation() {
-       RAnimation(1f,LoopR);
+       RAnimation(1f,r);
     }
-    public void RAnimation(boolean fromZero) {
-        if(fromZero){RAnimation(1f,LoopR);}else {
+    public void RAnimation(boolean fromZeroToLoopR) {
+        if(fromZeroToLoopR){RAnimation(1f,LoopR);}else {
             RAnimation(LoopR,1f);
         }
     }
