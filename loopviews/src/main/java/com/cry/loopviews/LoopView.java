@@ -1,4 +1,4 @@
-package com.cry.animation.library;
+package com.cry.loopviews;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -66,7 +66,7 @@ public class LoopView extends RelativeLayout{
         Collections.sort(list, comp);
         for (int i=0;i<list.size();i++){
             list.get(i).bringToFront();
-            list.get(i).setEnabled(i==(list.size()-1)&&angle%(360/size)==0 ? true:false);
+            list.get(i).setEnabled(i == (list.size() - 1) && angle % (360 / size) == 0 ? true : false);
         }
     }
     private class SortComparator implements Comparator<View> {

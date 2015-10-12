@@ -1,4 +1,4 @@
-package com.cry.animation.library;
+package com.cry.loopviews;
 
 import android.os.Handler;
 import android.os.Message;

@@ -33,21 +33,21 @@
             android:checked="true" />
     </LinearLayout>
 
-    <com.cry.animation.library.LoopViewPager
+    <com.cry.loopviews.LoopViewPager
         android:id="@+id/loopViewPager"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:gravity="center_vertical"
         android:background="#334e4e4e">
-    </com.cry.animation.library.LoopViewPager>
-    <com.cry.animation.library.LoopView
+    </com.cry.loopviews.LoopViewPager>
+    <com.cry.loopviews.LoopView
         android:id="@+id/loopView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
         <include layout="@layout/item_view0"></include>
         <include layout="@layout/item_view1"></include>
         <include layout="@layout/item_view2"></include>
-    </com.cry.animation.library.LoopView>
+    </com.cry.loopviews.LoopView>
 
 
 

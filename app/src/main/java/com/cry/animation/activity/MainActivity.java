@@ -8,9 +8,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.cry.animation.library.LoopView;
-import com.cry.animation.library.LoopViewPager;
 import com.cry.animation.R;
+import com.cry.loopviews.LoopView;
+import com.cry.loopviews.LoopViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
