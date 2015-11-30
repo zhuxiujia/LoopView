@@ -363,6 +363,7 @@ public class LoopViewPager extends FrameLayout{
 
     public void setAutoChangeTime(long autoChangeTime) {
         this.autoChangeTime = autoChangeTime;
+        loopHandler.setLoopTime(autoChangeTime);
     }
 
     public long getAutoChangeTime() {
