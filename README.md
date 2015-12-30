@@ -6,7 +6,8 @@
 [点击下载jar文件](https://github.com/zhuxiujia/LoopView/blob/master/loopview.jar?raw=true)
 ##优势
 *3d旋转GrallyView，继承FrameLayout<br />
-*支持自动旋转<br />
+*LoopViewPager不仅支持无限循环，还支持左右和上下切换，同时支持Handler实现的自动切换
+*支持使用Handler实现的自动旋转，相比使用线程更加节省性能<br />
 *可直接在xml添加元素即可添加列数据。无需编写代码添加<br />
 *优良的兼容性，和尺寸控制<br />
 ##如何使用？
