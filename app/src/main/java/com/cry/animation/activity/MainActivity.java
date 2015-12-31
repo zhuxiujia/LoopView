@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
         //LoopView 使用方法---------------------------------------------
         loopView=(LoopView)findViewById(R.id.loopView);
         loopView.setAutoRotationTime(1 * 1000);//设置自动旋转时间
-        loopView.setR(200);//设置半径
+        loopView.setR(getResources().getDimension(R.dimen.loopview_width)/2);//设置半径
         //loopView.RAnimation();//半径动画
 
 
