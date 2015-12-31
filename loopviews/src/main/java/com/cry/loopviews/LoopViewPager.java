@@ -33,7 +33,7 @@ public class LoopViewPager extends FrameLayout{
     private ViewGroup.LayoutParams layoutParams=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     private OnItemSelectedListener onItemSelectedListener=null;
 
-    private boolean horizontal=true;//滑动方向
+    private boolean horizontal=true;//是否横向滑动，否则竖直方向滑动
     boolean touching=false;//is touching
     int last_touch_point=0;//上次点击
     int  position=0;//now view x position

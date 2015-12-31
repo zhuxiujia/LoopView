@@ -19,7 +19,7 @@ import java.util.List;
 public class MainActivity extends Activity {
     LoopView loopView;
     LoopViewPager loopViewPager;
-    CheckBox checkBox_hx,checkbox_zd_loopviewpager,checkBox_bj,checkbox_zd_loopview;
+    CheckBox checkBox_hx,checkbox_zd_loopviewpager,checkBox_bj,checkbox_zd_loopview,checkbox_hx_loopview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
         checkBox_hx=(CheckBox)findViewById(R.id.checkbox_hx);
         checkbox_zd_loopviewpager=(CheckBox)findViewById(R.id.checkbox_zd_loopviewpager);
         checkbox_zd_loopview=(CheckBox)findViewById(R.id.checkbox_zd_loopview);
+        checkbox_hx_loopview=(CheckBox)findViewById(R.id.checkbox_hx_loopview);
         checkBox_bj=(CheckBox)findViewById(R.id.checkbox_r_animation);
 
         //LoopViewPager 使用方法---------------------------------------------
@@ -49,7 +50,13 @@ public class MainActivity extends Activity {
         checkBox_hx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                loopViewPager.setHorizontal(isChecked);//设置是否横向切换
+                loopViewPager.setHorizontal(isChecked);//设置LoopViewPager是否横向切换
+            }
+        });
+        checkbox_hx_loopview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                loopView.setHorizontal(isChecked);//设置LoopView是否横向切换
             }
         });
         checkbox_zd_loopviewpager.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

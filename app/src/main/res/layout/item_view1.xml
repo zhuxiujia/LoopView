@@ -11,7 +11,7 @@
             android:layout_width="@dimen/loopview_width"
             android:layout_height="@dimen/loopview_width"
             android:alpha="0.9"
-            android:background="@drawable/drawable_point0">
+            android:background="@drawable/drawable_point1">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

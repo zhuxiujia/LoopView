@@ -8,12 +8,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|right"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LoopViewPager 示例"/>
+            android:text="LoopViewPager"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,12 +41,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|right"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LoopView 示例"/>
+            android:text="LoopView"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,6 +55,13 @@
             android:layout_gravity="right"
             android:checked="true"
             />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="横向切换"
+            android:id="@+id/checkbox_hx_loopview"
+            android:layout_gravity="right"
+            android:checked="true" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

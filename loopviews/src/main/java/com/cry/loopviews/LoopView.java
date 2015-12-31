@@ -34,6 +34,10 @@ public class LoopView extends RelativeLayout{
     private float last_angle=0;
     private boolean autoRotation=false;//自动旋转
     private boolean touching=false;//正在触摸
+    private boolean horizontal=true;//是否横向滑动，否则竖直方向滑动
+    private float default_x=0,default_y=0;
+
+
     List<View> views=new ArrayList<View>();//子view引用列表
     LoopHandler loopHandler=new LoopHandler(3000) {
         @Override
@@ -82,7 +86,8 @@ public class LoopView extends RelativeLayout{
         return new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                angle+=distanceX/4;
+                if(horizontal){angle+=distanceX/4;}
+                else {angle+=distanceY/4;}
                 invate();
                 return true;
             }
@@ -90,14 +95,16 @@ public class LoopView extends RelativeLayout{
     }
 
     public void invate() {
-        int width= getWidth();
+        int width= 0;
+        if(horizontal){width=getWidth();}else{width=getHeight();}
         for (int i=0;i<views.size();i++){
             float x0 = (float) Math.sin(Math.toRadians(angle+180- i * 360 / size))*r;
             float y0=(float)Math.cos(Math.toRadians(angle+180 - i * 360 / size))*r;
             float scale0= (distance -y0)/ (distance+r);
             views.get(i).setScaleX(scale0);
             views.get(i).setScaleY(scale0);
-            views.get(i).setX(width / 2 + x0 - views.get(i).getWidth() / 2);
+            if(horizontal){views.get(i).setX(width / 2 + x0 - views.get(i).getWidth() / 2);views.get(i).setY(default_y);}
+            else {views.get(i).setY(width / 2 + x0 - views.get(i).getWidth() / 2);views.get(i).setX(default_x);}
         }
         viewSortArray.clear();
         for (int i=0;i<views.size();i++){
@@ -157,6 +164,8 @@ public class LoopView extends RelativeLayout{
         size=count;
         for (int i=0;i<count;i++){
             views.add(getChildAt(i));
+            default_x=views.get(i).getX();
+            default_y=views.get(i).getY();
         }
     }
     private void restPosition() {
@@ -333,5 +342,10 @@ public class LoopView extends RelativeLayout{
 
     public boolean isAutoRotation() {
         return autoRotation;
+    }
+
+    public void setHorizontal(boolean horizontal) {
+        this.horizontal = horizontal;
+        invate();
     }
 }
