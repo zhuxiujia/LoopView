@@ -21,10 +21,11 @@ import java.util.List;
  */
 public class LoopView extends RelativeLayout{
     final static int LoopR=200;;
-    Context con;
     ValueAnimator restAnimator =null;//回位动画
     ValueAnimator rAnimation =null;//半径动画
     GestureDetector mGestureDetector=null;//手势类
+    Comparator comp=new SortComparator();
+    List<View> viewSortArray =new ArrayList<View>();
     private int selectItem=0;//当前选择项
     private int   size=0;//个数
     private float r=LoopR;//半径
@@ -58,11 +59,9 @@ public class LoopView extends RelativeLayout{
     }
 
     private void init(Context context) {
-        this.con=context;
         mGestureDetector= new GestureDetector(context, getGeomeryController());
     }
     private void sortList(List<View> list){
-        Comparator comp=new SortComparator();
         Collections.sort(list, comp);
         for (int i=0;i<list.size();i++){
             list.get(i).bringToFront();
@@ -83,7 +82,6 @@ public class LoopView extends RelativeLayout{
         return new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                //Log.i("ds","distance:"+distanceX);
                 angle+=distanceX/4;
                 invate();
                 return true;
@@ -101,13 +99,13 @@ public class LoopView extends RelativeLayout{
             views.get(i).setScaleY(scale0);
             views.get(i).setX(width / 2 + x0 - views.get(i).getWidth() / 2);
         }
-        List<View> arr=new ArrayList<View>();
+        viewSortArray.clear();
         for (int i=0;i<views.size();i++){
-            arr.add(views.get(i));
+            viewSortArray.add(views.get(i));
             views.get(i).setTag(i);
         }
-        sortList(arr);
-        postInvalidate();
+        sortList(viewSortArray);
+        invalidate();
     }
 
     @Override
@@ -148,10 +146,10 @@ public class LoopView extends RelativeLayout{
 
 
     public void InitData() {
-        initView();
+        loadAllViews();
         if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
     }
-    private void initView() {
+    private void loadAllViews() {
         for (int i=0;i<views.size();i++){
             views.remove(i);
         }
@@ -161,7 +159,6 @@ public class LoopView extends RelativeLayout{
             views.add(getChildAt(i));
         }
     }
-
     private void restPosition() {
         if(size==0){return;}
         float finall=0;
@@ -184,14 +181,11 @@ public class LoopView extends RelativeLayout{
         }
         AnimRotationTo(finall, null);
     }
-
-
     private void AnimRotationTo(float finall, final Runnable complete){
         if(angle==finall){return;}
         restAnimator = ValueAnimator.ofFloat(angle,finall);
         restAnimator.setInterpolator(new DecelerateInterpolator());
         restAnimator.setDuration(300);
-
         restAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -271,16 +265,10 @@ public class LoopView extends RelativeLayout{
         }
         return true;
     }
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //onTouch(event);
         return true;
     }
-
-
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         onTouch(ev);

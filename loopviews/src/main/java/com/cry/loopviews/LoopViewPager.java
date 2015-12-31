@@ -119,6 +119,7 @@ public class LoopViewPager extends FrameLayout{
 
 
     public void setHorizontal(boolean horizontal) {
+        try{valueAnimator.end();}catch (Exception e){e.printStackTrace();}
         this.item=0;
         this.horizontal = horizontal;
         this.requestLayout();

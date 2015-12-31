@@ -12,25 +12,17 @@
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="半径动画"
-            android:id="@+id/checkbox_r_animation"
-            android:layout_gravity="right"
-            android:checked="true"
-             />
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="自动切换"
-            android:id="@+id/checkbox_zd"
-            android:layout_gravity="right"
-            android:checked="false" />
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="横向切换"
             android:id="@+id/checkbox_hx"
             android:layout_gravity="right"
             android:checked="true" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动切换"
+            android:id="@+id/checkbox_zd_loopviewpager"
+            android:layout_gravity="right"
+            android:checked="false" />
     </LinearLayout>
 
     <com.cry.loopviews.LoopViewPager
@@ -40,10 +32,32 @@
         android:gravity="center_vertical"
         android:background="#334e4e4e">
     </com.cry.loopviews.LoopViewPager>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="半径动画"
+            android:id="@+id/checkbox_r_animation"
+            android:layout_gravity="right"
+            android:checked="true"
+            />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动切换"
+            android:id="@+id/checkbox_zd_loopview"
+            android:layout_gravity="right"
+            android:checked="false" />
+    </LinearLayout>
     <com.cry.loopviews.LoopView
         android:id="@+id/loopView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:gravity="center">
         <include layout="@layout/item_view0"></include>
         <include layout="@layout/item_view1"></include>
         <include layout="@layout/item_view2"></include>
