@@ -94,25 +94,31 @@ public class LoopView extends RelativeLayout{
         };
     }
 
+
+
     public void invate() {
-        int width= 0;
-        if(horizontal){width=getWidth();}else{width=getHeight();}
+        int max_distence = 0;
+        if(horizontal){
+            max_distence =getWidth();}else{
+            max_distence =getHeight();}
         for (int i=0;i<views.size();i++){
             float x0 = (float) Math.sin(Math.toRadians(angle+180- i * 360 / size))*r;
             float y0=(float)Math.cos(Math.toRadians(angle+180 - i * 360 / size))*r;
             float scale0= (distance -y0)/ (distance+r);
             views.get(i).setScaleX(scale0);
             views.get(i).setScaleY(scale0);
-            if(horizontal){views.get(i).setX(width / 2 + x0 - views.get(i).getWidth() / 2);views.get(i).setY(default_y);}
-            else {views.get(i).setY(width / 2 + x0 - views.get(i).getWidth() / 2);views.get(i).setX(default_x);}
+            if(horizontal){views.get(i).setX(max_distence / 2 + x0 - views.get(i).getWidth() / 2);views.get(i).setY(default_y);}
+            else {views.get(i).setY(max_distence / 2 + (x0 - views.get(i).getHeight() / 2));views.get(i).setX(default_x);}
         }
+        redoSortArray();
+        sortList(viewSortArray);
+        invalidate();
+    }
+    private void redoSortArray() {
         viewSortArray.clear();
         for (int i=0;i<views.size();i++){
             viewSortArray.add(views.get(i));
-            views.get(i).setTag(i);
         }
-        sortList(viewSortArray);
-        invalidate();
     }
 
     @Override
