@@ -14,19 +14,20 @@
 *优良的兼容性，和尺寸控制<br />
 ##如何使用？
 ###Step1:导入jar文件到项目
-###Step2:编写加入你的布局的xml文件
-`<com.cry.loopviews.LoopView`<br />
-        `android:layout_width="fill_parent"`<br />
-        `android:layout_height="fill_parent"`<br />
-        `android:gravity="center_vertical"`<br />
-        `>`<br />
-  <!--  此处添加你的View元素，也可以用layout包裹 --!><br />
-       `<View`<br />
-       `android:layout_width="200dp"`<br />
-       `android:layout_height="200dp"`<br />
-        `/>`<br />
-       `...............`<br />
- `</com.cry.loopviews.LoopView>`
+###Step2:在你的layout目录下编写加入你的xml文件
+        <com.cry.loopviews.LoopView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        >
+              <!--此处添加你的任意View或者layout元素 -->
+        <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_launcher"    
+        />
+              <!-- 可以包裹任意多的view 和layout -->
+        </com.cry.loopviews.LoopView>
 ##问题反馈和联系方式
 qq:347284221<br />
 邮箱:zhuxiujia@qq.com<br />
