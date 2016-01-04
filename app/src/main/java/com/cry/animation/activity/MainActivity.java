@@ -42,9 +42,11 @@ public class MainActivity extends Activity {
 
         //LoopView 使用方法---------------------------------------------
         loopView=(LoopView)findViewById(R.id.loopView);
-        loopView.setAutoRotationTime(1 * 1000);//设置自动旋转时间
-        loopView.setR(getResources().getDimension(R.dimen.loopview_width)/2);//设置半径
-        //loopView.RAnimation();//半径动画
+        loopView.setAutoRotationTime(1 * 1000)//设置自动旋转时间
+        .setR(getResources().getDimension(R.dimen.loopview_width)/2)//设置半径
+        .setLoopRotationX(0)//x轴旋转
+        .setLoopRotationZ(10); //z轴旋转
+        //.RAnimation(1f,loopView.getR());//半径动画
 
 
         checkBox_hx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

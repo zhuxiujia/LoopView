@@ -25,7 +25,7 @@ public class LoopView extends RelativeLayout{
     ValueAnimator rAnimation =null;//半径动画
     GestureDetector mGestureDetector=null;//手势类
     Comparator comp=new SortComparator();
-    List<View> viewSortArray =new ArrayList<View>();
+    List<View> viewSortArray =new ArrayList<>();
     private int selectItem=0;//当前选择项
     private int   size=0;//个数
     private float r=LoopR;//半径
@@ -35,10 +35,11 @@ public class LoopView extends RelativeLayout{
     private boolean autoRotation=false;//自动旋转
     private boolean touching=false;//正在触摸
     private boolean horizontal=true;//是否横向滑动，否则竖直方向滑动
+    private int loopRotationX =0, loopRotationZ =0;//x轴旋转和轴旋转，y轴无效果
     private float default_x=0,default_y=0;
 
 
-    List<View> views=new ArrayList<View>();//子view引用列表
+    List<View> views=new ArrayList<>();//子view引用列表
     LoopHandler loopHandler=new LoopHandler(3000) {
         @Override
         public void du() {
@@ -93,22 +94,28 @@ public class LoopView extends RelativeLayout{
             }
         };
     }
-
-
-
     public void invate() {
         int max_distence = 0;
         if(horizontal){
             max_distence =getWidth();}else{
             max_distence =getHeight();}
         for (int i=0;i<views.size();i++){
-            float x0 = (float) Math.sin(Math.toRadians(angle+180- i * 360 / size))*r;
-            float y0=(float)Math.cos(Math.toRadians(angle+180 - i * 360 / size))*r;
+            double radians=angle+180- i * 360 / size;
+            float x0 = (float) Math.sin(Math.toRadians(radians))*r;
+            float y0=(float)Math.cos(Math.toRadians(radians))*r;
             float scale0= (distance -y0)/ (distance+r);
             views.get(i).setScaleX(scale0);
             views.get(i).setScaleY(scale0);
-            if(horizontal){views.get(i).setX(max_distence / 2 + x0 - views.get(i).getWidth() / 2);views.get(i).setY(default_y);}
-            else {views.get(i).setY(max_distence / 2 + (x0 - views.get(i).getHeight() / 2));views.get(i).setX(default_x);}
+            float rotationX_y=(float)Math.sin(Math.toRadians(loopRotationX *Math.cos(Math.toRadians(radians))))*r;
+
+            float rotationZ_y=(float)Math.sin(Math.toRadians(loopRotationZ *Math.sin(Math.toRadians(radians))))*r;
+
+            if(horizontal){
+                views.get(i).setX(max_distence / 2 + x0 - views.get(i).getWidth() / 2);views.get(i).setY(default_y+rotationX_y+rotationZ_y);
+            }
+            else {
+                views.get(i).setY(max_distence / 2 + (x0 - views.get(i).getHeight() / 2));views.get(i).setX(default_x+rotationX_y+rotationZ_y);
+            }
         }
         redoSortArray();
         sortList(viewSortArray);
@@ -144,6 +151,7 @@ public class LoopView extends RelativeLayout{
         }
     }
     public void RAnimation(float from,float to) {
+        if(rAnimation!=null)if(rAnimation.isRunning()==true)rAnimation.cancel();
         rAnimation=ValueAnimator.ofFloat(from,to);
         rAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -367,5 +375,23 @@ public class LoopView extends RelativeLayout{
         this.horizontal = horizontal;
         invate();
         return  this;
+    }
+
+    public LoopView setLoopRotationX(int loopRotationX) {
+        this.loopRotationX = loopRotationX;
+        return this;
+    }
+
+    public LoopView setLoopRotationZ(int loopRotationZ) {
+        this.loopRotationZ = loopRotationZ;
+        return this;
+    }
+
+    public int getLoopRotationX() {
+        return loopRotationX;
+    }
+
+    public int getLoopRotationZ() {
+        return loopRotationZ;
     }
 }
