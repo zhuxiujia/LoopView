@@ -28,5 +28,6 @@
 ##问题反馈和联系方式
 qq:347284221<br />
 邮箱:zhuxiujia@qq.com<br />
-![ABC](device-2015-05-22-100146.png)
+![ABC](demo.gif)
+##原理示意图
 ![ABC](hao.png)
