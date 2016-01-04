@@ -3,7 +3,7 @@
 2: LoopViewPager（新增）<br />
 可以无限循环，自动旋转，停靠的3D旋转布局控件,无需编写代码，直接在布局中加入自己的布局即可。<br />
 仅使用三角函数,使用ValueAnimation,继承FrameLayout.兼容所有滑动组件<br />
-##[点击下载最新版本jar文件   jar file](https://github.com/zhuxiujia/LoopView/blob/master/loopview-1.4.jar?raw=true)<br />
+##[点击下载最新版本jar文件   jar file](https://github.com/zhuxiujia/LoopView/blob/master/loopview-1.4.1.jar?raw=true)<br />
 <br />
 ![image](demo.gif)
 ##优势
