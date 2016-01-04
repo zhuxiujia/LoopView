@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
         loopView.setAutoRotationTime(1 * 1000)//设置自动旋转时间
         .setR(getResources().getDimension(R.dimen.loopview_width)/2)//设置半径
         .setLoopRotationX(0)//x轴旋转
-        .setLoopRotationZ(10); //z轴旋转
+        .setLoopRotationZ(0); //z轴旋转
         //.RAnimation(1f,loopView.getR());//半径动画
 
 
