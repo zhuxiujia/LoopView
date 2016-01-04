@@ -313,9 +313,9 @@ public class LoopView extends RelativeLayout{
     }
      /*selecItem must > 0*/
     public void setSelectItem(int selectItem) {
-        if(selectItem>0) {
+        if(size>0)if(selectItem>0&&selectItem<size) {
             this.selectItem = selectItem;
-            if(size>0)AnimRotationTo(selectItem*(360/size), null);
+            AnimRotationTo(selectItem*(360/size), null);
         }
     }
 
