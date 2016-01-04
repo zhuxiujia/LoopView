@@ -20,7 +20,7 @@ import java.util.List;
  * 水平旋转轮播控件
  */
 public class LoopView extends RelativeLayout{
-    final static int LoopR=200;;
+    final static int LoopR=200;
     ValueAnimator restAnimator =null;//回位动画
     ValueAnimator rAnimation =null;//半径动画
     GestureDetector mGestureDetector=null;//手势类
@@ -292,16 +292,18 @@ public class LoopView extends RelativeLayout{
         return angle;
     }
 
-    public void setAngle(float angle) {
+    public LoopView setAngle(float angle) {
         this.angle = angle;
+        return this;
     }
 
     public float getDistance() {
         return distance;
     }
 
-    public void setDistance(float distance) {
+    public LoopView setDistance(float distance) {
         this.distance = distance;
+        return this;
     }
 
     public float getR() {
@@ -312,40 +314,52 @@ public class LoopView extends RelativeLayout{
         return selectItem;
     }
      /*selecItem must > 0*/
-    public void setSelectItem(int selectItem) {
-        if(size>0)if(selectItem>0&&selectItem<size) {
-            this.selectItem = selectItem;
-            AnimRotationTo(selectItem*(360/size), null);
+    public LoopView setSelectItem(int selectItem) throws Exception{
+        if(size>0) {
+            if (selectItem > 0 && selectItem < size) {
+                this.selectItem = selectItem;
+                AnimRotationTo(selectItem * (360 / size), null);
+            }else {
+                throw new Exception("must selectItem >0 or selectItem<size");
+            }
+        }else {
+            throw new Exception("size is zero");
         }
+        return this;
     }
 
-    public void setR(float r) {
+    public LoopView setR(float r) {
         this.r = r;
         distance=3*r;
+        return this;
     }
 
-    public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
+    public LoopView setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
         this.onItemSelectedListener = onItemSelectedListener;
+        return this;
     }
 
-    public void setAutoRotation(boolean autoRotation) {
+    public LoopView setAutoRotation(boolean autoRotation) {
         loopHandler.setLoop(autoRotation);
+        return this;
     }
 
     public long getAutoRotationTime() {
         return loopHandler.loopTime;
     }
 
-    public void setAutoRotationTime(long autoRotationTime) {
+    public LoopView setAutoRotationTime(long autoRotationTime) {
         loopHandler.setLoopTime(autoRotationTime);
+        return this;
     }
 
     public boolean isAutoRotation() {
         return autoRotation;
     }
 
-    public void setHorizontal(boolean horizontal) {
+    public LoopView setHorizontal(boolean horizontal) {
         this.horizontal = horizontal;
         invate();
+        return  this;
     }
 }
