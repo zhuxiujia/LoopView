@@ -1,8 +1,6 @@
 #介绍
-1: LoopView<br />
-2: LoopViewPager（新增）<br />
-可以无限循环，自动旋转，停靠的3D旋转布局控件,无需编写代码，直接在布局中加入自己的布局即可。<br />
-仅使用三角函数,使用ValueAnimation,继承FrameLayout.兼容所有滑动组件<br />
+LoopViewPager-------->继承自FrameLayout，不仅支持无限循环，相比android.support.v4中的ViewPager，更加简单易用。<br />
+LoopView     ------> 继承自RelativeLayout，不仅支持无限循环，而且有许多酷炫的动画和自定义功能，支持x轴，z轴，半径的动态 改变外观。非常易于使用。<br />
 ##[点击下载最新版本jar文件   jar file](https://github.com/zhuxiujia/LoopView/blob/master/loopview-1.4.2.jar?raw=true)<br />
 <br />
 ![image](demo.gif)
