@@ -1,1 +1,1 @@
-include ':app', ':loopviews'
+include ':example', ':loopviews'

@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import java.util.List;
  * 水平旋转轮播控件
  */
 public class LoopView extends RelativeLayout{
+    final String TAG=getClass().getSimpleName();
     final static int LoopR=200;
     ValueAnimator restAnimator =null;//回位动画
     ValueAnimator rAnimation =null;//半径动画
@@ -36,10 +38,9 @@ public class LoopView extends RelativeLayout{
     private boolean touching=false;//正在触摸
     private boolean horizontal=true;//是否横向滑动，否则竖直方向滑动
     private int loopRotationX =0, loopRotationZ =0;//x轴旋转和轴旋转，y轴无效果
-    private float default_x=0,default_y=0;
-
-
     List<View> views=new ArrayList<>();//子view引用列表
+
+
     LoopHandler loopHandler=new LoopHandler(3000) {
         @Override
         public void du() {
@@ -63,8 +64,20 @@ public class LoopView extends RelativeLayout{
         init(context);
     }
 
-    private void init(Context context) {
+    private void init(final Context context) {
         mGestureDetector= new GestureDetector(context, getGeomeryController());
+        setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
+            @Override
+            public void onChildViewAdded(View parent, View child) {
+                views.add(child);
+                size=getChildCount();
+            }
+            @Override
+            public void onChildViewRemoved(View parent, View child) {
+                views.remove(child);
+                size=getChildCount();
+            }
+        });
     }
     private void sortList(List<View> list){
         Collections.sort(list, comp);
@@ -95,10 +108,6 @@ public class LoopView extends RelativeLayout{
         };
     }
     public void invate() {
-        int max_distence = 0;
-        if(horizontal){
-            max_distence =getWidth();}else{
-            max_distence =getHeight();}
         for (int i=0;i<views.size();i++){
             double radians=angle+180- i * 360 / size;
             float x0 = (float) Math.sin(Math.toRadians(radians))*r;
@@ -107,14 +116,14 @@ public class LoopView extends RelativeLayout{
             views.get(i).setScaleX(scale0);
             views.get(i).setScaleY(scale0);
             float rotationX_y=(float)Math.sin(Math.toRadians(loopRotationX *Math.cos(Math.toRadians(radians))))*r;
-
             float rotationZ_y=(float)Math.sin(Math.toRadians(loopRotationZ *Math.sin(Math.toRadians(radians))))*r;
-
             if(horizontal){
-                views.get(i).setX(max_distence / 2 + x0 - views.get(i).getWidth() / 2);views.get(i).setY(default_y+rotationX_y+rotationZ_y);
+                views.get(i).setTranslationX( x0 );
+                views.get(i).setTranslationY(rotationX_y+rotationZ_y);
             }
             else {
-                views.get(i).setY(max_distence / 2 + (x0 - views.get(i).getHeight() / 2));views.get(i).setX(default_x+rotationX_y+rotationZ_y);
+                views.get(i).setTranslationY( x0 );
+                views.get(i).setTranslationX(rotationX_y+rotationZ_y);
             }
         }
         redoSortArray();
@@ -138,10 +147,12 @@ public class LoopView extends RelativeLayout{
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
        if(changed){
-           InitData();
+           setSelectItem(0);
            RAnimation();
        }
     }
+
+
     public void RAnimation() {
        RAnimation(1f,r);
     }
@@ -163,24 +174,6 @@ public class LoopView extends RelativeLayout{
         rAnimation.setInterpolator(new DecelerateInterpolator());
         rAnimation.setDuration(2000);
         rAnimation.start();
-    }
-
-
-    public void InitData() {
-        loadAllViews();
-        if(onItemSelectedListener!=null){onItemSelectedListener.selected(selectItem,views.get(selectItem));}
-    }
-    private void loadAllViews() {
-        for (int i=0;i<views.size();i++){
-            views.remove(i);
-        }
-        final int count=getChildCount();
-        size=count;
-        for (int i=0;i<count;i++){
-            views.add(getChildAt(i));
-            default_x=views.get(i).getX();
-            default_y=views.get(i).getY();
-        }
     }
     private void restPosition() {
         if(size==0){return;}
@@ -328,16 +321,16 @@ public class LoopView extends RelativeLayout{
         return selectItem;
     }
      /*selecItem must > 0*/
-    public LoopView setSelectItem(int selectItem) throws Exception{
+    public LoopView setSelectItem(int selectItem){
         if(size>0) {
             if (selectItem > 0 && selectItem < size) {
                 this.selectItem = selectItem;
                 AnimRotationTo(selectItem * (360 / size), null);
             }else {
-                throw new Exception("must selectItem >0 or selectItem<size");
+                Log.e(TAG,"must selectItem >0 or selectItem<size");
             }
         }else {
-            throw new Exception("size is zero");
+            Log.e(TAG,"size is zero");
         }
         return this;
     }
@@ -393,5 +386,13 @@ public class LoopView extends RelativeLayout{
 
     public int getLoopRotationZ() {
         return loopRotationZ;
+    }
+
+    public ValueAnimator getRestAnimator() {
+        return restAnimator;
+    }
+
+    public ValueAnimator getrAnimation() {
+        return rAnimation;
     }
 }
