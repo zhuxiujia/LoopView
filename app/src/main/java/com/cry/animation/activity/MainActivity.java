@@ -17,9 +17,13 @@ import java.util.List;
 
 
 public class MainActivity extends Activity {
-    LoopView loopView;
+    LoopView loopView0,loopView1;
     LoopViewPager loopViewPager;
-    CheckBox checkBox_hx,checkbox_zd_loopviewpager,checkBox_bj,checkbox_zd_loopview,checkbox_hx_loopview;
+    CheckBox checkBox_hx,
+            checkbox_zd_loopviewpager,
+            checkBox_bj,
+            checkbox_zd_loopview,
+            checkbox_hx_loopview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +45,9 @@ public class MainActivity extends Activity {
 
 
         //LoopView 使用方法---------------------------------------------
-        loopView=(LoopView)findViewById(R.id.loopView);
-        loopView.setAutoRotationTime(1 * 1000)//设置自动旋转时间
-        .setR(getResources().getDimension(R.dimen.loopview_width)/2)//设置半径
-        .setLoopRotationX(0)//x轴旋转
-        .setLoopRotationZ(0); //z轴旋转
-        //.RAnimation(1f,loopView.getR());//半径动画
+        loopView0=(LoopView)findViewById(R.id.loopView0);
+        loopView1=(LoopView)findViewById(R.id.loopView1);
+        initLoopViews(loopView0,loopView1);
 
 
         checkBox_hx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -58,7 +59,8 @@ public class MainActivity extends Activity {
         checkbox_hx_loopview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                loopView.setHorizontal(isChecked);//设置LoopView是否横向切换
+                loopView0.setHorizontal(isChecked);//设置LoopView是否横向切换
+                loopView1.setHorizontal(isChecked);
             }
         });
         checkbox_zd_loopviewpager.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -70,15 +72,27 @@ public class MainActivity extends Activity {
         checkbox_zd_loopview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                loopView.setAutoRotation(isChecked);//启动LoopView自动切换
+                loopView0.setAutoRotation(isChecked);//启动LoopView自动切换
+                loopView1.setAutoRotation(isChecked);
             }
         });
         checkBox_bj.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                loopView.RAnimation(isChecked);//半径动画
+                loopView0.RAnimation(isChecked);//半径动画
+                loopView1.RAnimation(isChecked);
             }
         });
+    }
+
+    private void initLoopViews(LoopView... loopViews) {
+        for (int i=0;i<loopViews.length;i++){
+         loopViews[i].setAutoRotationTime(1 * 1000)//设置自动旋转时间
+                 .setR(getResources().getDimension(R.dimen.loopview_width)/2)//设置半径
+                 .setLoopRotationX(-10)//x轴旋转
+                 .setLoopRotationZ(0); //z轴旋转
+            //.RAnimation(1f,loopView.getR());//半径动画
+        }
     }
 
     /*准备给ViewPager 设置要您的需要添加的View*/
