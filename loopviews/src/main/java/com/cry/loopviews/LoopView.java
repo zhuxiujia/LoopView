@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 
+import com.cry.loopviews.listener.OnInvateListener;
+import com.cry.loopviews.listener.OnItemSelectedListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,6 +28,8 @@ public class LoopView extends RelativeLayout{
     final static int LoopR=200;
     ValueAnimator restAnimator =null;//回位动画
     ValueAnimator rAnimation =null;//半径动画
+    ValueAnimator zAnimation=null;
+    ValueAnimator xAnimation=null;
     GestureDetector mGestureDetector=null;//手势类
     Comparator comp=new SortComparator();
     List<View> viewSortArray =new ArrayList<>();
@@ -39,12 +44,12 @@ public class LoopView extends RelativeLayout{
     private boolean horizontal=true;//是否横向滑动，否则竖直方向滑动
     private int loopRotationX =0, loopRotationZ =0;//x轴旋转和轴旋转，y轴无效果
     List<View> views=new ArrayList<>();//子view引用列表
-
+    private OnInvateListener onInvateListener=null;//刷新侦听
 
     LoopHandler loopHandler=new LoopHandler(3000) {
         @Override
         public void du() {
-            try{if(size!=0)AnimRotationTo(angle-360/size,null);}catch (Exception e){}
+            try{AnimRotationTo(angle-360/size,null);}catch (Exception e){}
         }
     };
     private OnItemSelectedListener onItemSelectedListener=null;//选择事件接口
@@ -116,20 +121,28 @@ public class LoopView extends RelativeLayout{
             views.get(i).setScaleX(scale0);
             views.get(i).setScaleY(scale0);
             float rotationX_y=(float)Math.sin(Math.toRadians(loopRotationX *Math.cos(Math.toRadians(radians))))*r;
-            float rotationZ_y=(float)Math.sin(Math.toRadians(loopRotationZ *Math.sin(Math.toRadians(radians))))*r;
-            if(horizontal){
-                views.get(i).setTranslationX( x0 );
+            float rotationZ_y=-(float)Math.sin(Math.toRadians(-loopRotationZ))*x0;
+            float rotationZ_x=(((float) Math.cos(Math.toRadians(-loopRotationZ))*x0)-x0);
+
+                views.get(i).setTranslationX( x0 +rotationZ_x);
                 views.get(i).setTranslationY(rotationX_y+rotationZ_y);
-            }
-            else {
-                views.get(i).setTranslationY( x0 );
-                views.get(i).setTranslationX(rotationX_y+rotationZ_y);
-            }
         }
         redoSortArray();
         sortList(viewSortArray);
         invalidate();
+        if(this.onInvateListener!=null){
+            loopHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    onInvateListener.onInvate(LoopView.this);
+                }
+            });
+        }
     }
+    public void setOnInvateListener(OnInvateListener onInvateListener) {
+        this.onInvateListener = onInvateListener;
+    }
+
     private void redoSortArray() {
         viewSortArray.clear();
         for (int i=0;i<views.size();i++){
@@ -150,6 +163,36 @@ public class LoopView extends RelativeLayout{
            setSelectItem(0);
            RAnimation();
        }
+    }
+
+    public void createXAnimation(int from, int to, boolean start){
+        if(xAnimation!=null)if(xAnimation.isRunning()==true)xAnimation.cancel();
+        xAnimation= ValueAnimator.ofInt(from,to);
+        xAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+               loopRotationX= (Integer) animation.getAnimatedValue();
+                invate();
+            }
+        });
+        xAnimation.setInterpolator(new DecelerateInterpolator());
+        xAnimation.setDuration(2000);
+        if(start)xAnimation.start();
+    }
+    public ValueAnimator createZAnimation(int from, int to, boolean start){
+        if(zAnimation!=null)if(zAnimation.isRunning()==true)zAnimation.cancel();
+        zAnimation= ValueAnimator.ofInt(from,to);
+        zAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                loopRotationZ= (Integer) animation.getAnimatedValue();
+                invate();
+            }
+        });
+        zAnimation.setInterpolator(new DecelerateInterpolator());
+        zAnimation.setDuration(2000);
+        if(start)zAnimation.start();
+        return zAnimation;
     }
 
 
@@ -364,9 +407,17 @@ public class LoopView extends RelativeLayout{
         return autoRotation;
     }
 
-    public LoopView setHorizontal(boolean horizontal) {
-        this.horizontal = horizontal;
-        invate();
+    public LoopView setHorizontal(boolean horizontal,boolean anim) {
+        if(anim){
+            this.horizontal = horizontal;
+            if(horizontal){ createZAnimation(getLoopRotationZ(),0,true);}else{
+                createZAnimation(getLoopRotationZ(),90,true);
+            }
+        }else{
+            this.horizontal = horizontal;
+            if(horizontal){setLoopRotationZ(0);}else {setLoopRotationZ(90);}
+            invate();
+        }
         return  this;
     }
 
@@ -394,5 +445,21 @@ public class LoopView extends RelativeLayout{
 
     public ValueAnimator getrAnimation() {
         return rAnimation;
+    }
+
+    public void setzAnimation(ValueAnimator zAnimation) {
+        this.zAnimation = zAnimation;
+    }
+
+    public ValueAnimator getzAnimation() {
+        return zAnimation;
+    }
+
+    public void setxAnimation(ValueAnimator xAnimation) {
+        this.xAnimation = xAnimation;
+    }
+
+    public ValueAnimator getxAnimation() {
+        return xAnimation;
     }
 }

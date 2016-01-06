@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
+import com.cry.loopviews.listener.OnItemSelectedListener;
+
 import java.util.ArrayList;
 import java.util.List;
 

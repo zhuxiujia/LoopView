@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.cry.animation.R;
 import com.cry.loopviews.LoopView;
 import com.cry.loopviews.LoopViewPager;
+import com.cry.loopviews.listener.OnInvateListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +25,17 @@ public class MainActivity extends Activity {
     LoopViewPager loopViewPager;
 
     SeekBar seekBar_x,seekBar_z;
-    CheckBox checkBox_hx,
+
+    CheckBox
             checkbox_zd_loopviewpager,
-            checkBox_bj,
             checkbox_zd_loopview,
-            checkbox_hx_loopview,
             checkbox_use_textview
     ;
 
+    Switch switch_r_animation,
+            switch_hx,
+            switch_hx_loopview;
+    TextView textView_info;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +47,13 @@ public class MainActivity extends Activity {
     }
 
     private void initAllViews() {
-        checkBox_hx=(CheckBox)findViewById(R.id.checkbox_hx);
+        textView_info=(TextView)findViewById(R.id.textView_info);
+
+        switch_hx=(Switch) findViewById(R.id.switch_hx);
         checkbox_zd_loopviewpager=(CheckBox)findViewById(R.id.checkbox_zd_loopviewpager);
         checkbox_zd_loopview=(CheckBox)findViewById(R.id.checkbox_zd_loopview);
-        checkbox_hx_loopview=(CheckBox)findViewById(R.id.checkbox_hx_loopview);
-        checkBox_bj=(CheckBox)findViewById(R.id.checkbox_r_animation);
+        switch_hx_loopview=(Switch) findViewById(R.id.switch_hx_loopview);
+        switch_r_animation=(Switch) findViewById(R.id.switch_r_animation);
         checkbox_use_textview=(CheckBox)findViewById(R.id.checkbox_use_textview);
 
 
@@ -66,6 +73,24 @@ public class MainActivity extends Activity {
     }
 
     private void initListener() {
+
+        loopView.setOnInvateListener(new OnInvateListener() {
+            @Override
+            public void onInvate(LoopView loopView) {
+                try {
+                    //打印数据
+                    textView_info.setText(
+                            "\nRotation:" + (int)loopView.getAngle()
+                            +"\nRotationX:" + (int)loopView.getLoopRotationX()
+                            + "\nRotationZ:" + (int)loopView.getLoopRotationZ()
+                            + "\nR:" + loopView.getR()
+                    );
+                }catch (Exception e){
+                 e.printStackTrace();
+                }
+            }
+        });
+
         seekBar_x.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -94,16 +119,16 @@ public class MainActivity extends Activity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        checkBox_hx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switch_hx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 loopViewPager.setHorizontal(isChecked);//设置LoopViewPager是否横向切换
             }
         });
-        checkbox_hx_loopview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switch_hx_loopview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                loopView.setHorizontal(isChecked);//设置LoopView是否横向切换
+            public void onCheckedChanged(CompoundButton buttonView,final boolean isChecked) {
+                loopView.setHorizontal(isChecked,true);//设置LoopView是否横向切换
             }
         });
         checkbox_zd_loopviewpager.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -118,7 +143,7 @@ public class MainActivity extends Activity {
                 loopView.setAutoRotation(isChecked);//启动LoopView自动切换
             }
         });
-        checkBox_bj.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switch_r_animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 loopView.RAnimation(isChecked);//半径动画
@@ -161,7 +186,7 @@ public class MainActivity extends Activity {
     private void initLoopView() {
          loopView.setAutoRotationTime(1 * 1000)//设置自动旋转时间
                  .setR(getResources().getDimension(R.dimen.loopview_width)/2)//设置半径
-                 .setLoopRotationX(-10)//x轴旋转
+                 .setLoopRotationX(0)//x轴旋转
                  .setLoopRotationZ(0); //z轴旋转
             //.RAnimation(1f,loopView.getR());//半径动画
     }

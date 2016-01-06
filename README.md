@@ -1,7 +1,7 @@
 #介绍
 LoopViewPager-------->继承自FrameLayout，不仅支持无限循环，相比android.support.v4中的ViewPager，更加简单易用。<br />
 LoopView     ------> 继承自RelativeLayout，不仅支持无限循环，而且有许多酷炫的动画和自定义功能，支持x轴，z轴，半径的动态 改变外观。非常易于使用。<br />
-##[点击下载最新版本jar文件   jar file](https://github.com/zhuxiujia/LoopView/blob/master/loopview-1.4.2.jar?raw=true)<br />
+##[点击下载最新版本jar文件   jar file](https://github.com/zhuxiujia/LoopView/blob/master/loopview-1.4.3.jar?raw=true)<br />
 <br />
 ![image](demo.gif)
 ##优势
