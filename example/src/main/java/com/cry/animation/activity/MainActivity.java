@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
         //LoopViewPager 使用方法---------------------------------------------
         loopViewPager =(LoopViewPager)findViewById(R.id.loopViewPager);
         loopViewPager.setAutoChangeTime(1*1000);//设置自动切换时间
-        loopViewPager.setList(getViewList());//设置ViewList
+        loopViewPager.setViewList(getViewList());//设置ViewList
 
         //LoopView 使用方法---------------------------------------------
         loopView =(LoopView)findViewById(R.id.loopView0);

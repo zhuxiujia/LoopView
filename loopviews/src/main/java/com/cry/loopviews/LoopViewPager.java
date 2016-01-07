@@ -8,7 +8,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
 import com.cry.loopviews.listener.OnItemSelectedListener;
@@ -20,12 +19,10 @@ import java.util.List;
  * Created by zxj on 15/6/6.
  */
 public class LoopViewPager extends FrameLayout{
-    private Context con=null;
     int pagerWidth =0;
     int pagerHeight=0;
 
-    private BaseAdapter adapter=null;//Adapter
-    private List<View> list=new ArrayList<View>();//view数组
+    private List<View> viewList =new ArrayList<>();//view数组
     private GestureDetector mGestureDetector;//手势
     private int item=0;//滑动项目
     private int distence=0;//距离
@@ -66,7 +63,6 @@ public class LoopViewPager extends FrameLayout{
 
 
     private void init(Context context) {
-        this.con=context;
         mGestureDetector = new GestureDetector(context, getOnGestureListener());
     }
 
@@ -77,13 +73,13 @@ public class LoopViewPager extends FrameLayout{
                 if(horizontal) {
                     if(pagerWidth!=0){
                     distence = getScrollX() + (int) distanceX;
-                    if (Math.abs(distence / pagerWidth + 1) == list.size() + 1) {
+                    if (Math.abs(distence / pagerWidth + 1) == viewList.size() + 1) {
                         distence = 0;
                     }}
                 }else {
                     if(pagerHeight!=0){
                     distence = getScrollY() + (int) distanceY;
-                    if (Math.abs(distence / pagerHeight + 1) == list.size() + 1) {
+                    if (Math.abs(distence / pagerHeight + 1) == viewList.size() + 1) {
                         distence = 0;
                     }}
                 }
@@ -101,7 +97,7 @@ public class LoopViewPager extends FrameLayout{
     public void setList(List<View> list) {
         try{setAutoChange(false);}catch (Exception e){}
         try{removeAllViews();}catch (Exception e){}
-        this.list = list;
+        this.viewList = list;
         try {
             invate();
         } catch (Exception e) {
@@ -133,11 +129,6 @@ public class LoopViewPager extends FrameLayout{
         }
     }
 
-    public void setAdapter(BaseAdapter adapter){
-        this.adapter=adapter;
-    }
-
-
 
     public void invate() throws Exception{
         //Log.i("ds", "distence:" + distence);
@@ -156,64 +147,68 @@ public class LoopViewPager extends FrameLayout{
         if(horizontal){pagerLength=pagerWidth;}else{pagerLength=pagerHeight;}
         if(distence>0){
              next_position=distence/ pagerLength +1;
-             nextItem =Math.abs(next_position%list.size());
+             nextItem =Math.abs(next_position% viewList.size());
 
             thisItem = nextItem -1;
             if(thisItem <0){
-                thisItem =list.size()-1;}
-            if(thisItem >(list.size()-1)){
+                thisItem = viewList.size()-1;}
+            if(thisItem >(viewList.size()-1)){
                 thisItem =0;}
-            try{this.addView(list.get(thisItem),layoutParams);}catch (Exception e){}
-            list.get(thisItem).bringToFront();
-            if(horizontal){list.get(thisItem).setX((next_position - 1) * pagerLength);
-                          list.get(thisItem).setY(0);
+            try{this.addView(viewList.get(thisItem),layoutParams);}catch (Exception e){}
+            viewList.get(thisItem).bringToFront();
+            if(horizontal){
+                viewList.get(thisItem).setX((next_position - 1) * pagerLength);
+                          viewList.get(thisItem).setY(0);
             }else {
-                list.get(thisItem).setY((next_position - 1) * pagerLength);
-                list.get(thisItem).setX(0);
+                viewList.get(thisItem).setY((next_position - 1) * pagerLength);
+                viewList.get(thisItem).setX(0);
             }
 
 
-            try{this.addView(list.get(nextItem),layoutParams);}catch (Exception e){}
-            list.get(nextItem).bringToFront();
-            if(horizontal){list.get(nextItem).setX(next_position * pagerLength);
-            list.get(nextItem).setY(0);
+            try{this.addView(viewList.get(nextItem),layoutParams);}catch (Exception e){}
+            viewList.get(nextItem).bringToFront();
+            if(horizontal){
+                viewList.get(nextItem).setX(next_position * pagerLength);
+            viewList.get(nextItem).setY(0);
             }else {
-                list.get(nextItem).setY(next_position * pagerLength);
-                list.get(nextItem).setX(0);
+                viewList.get(nextItem).setY(next_position * pagerLength);
+                viewList.get(nextItem).setX(0);
             }
         }else if(distence<0){
              next_position=distence/ pagerLength -1;
-             nextItem =Math.abs(next_position%list.size());
+             nextItem =Math.abs(next_position% viewList.size());
             thisItem = nextItem -1;
             if(thisItem <0){
-                thisItem =list.size()-1;}
-            if(thisItem >(list.size()-1)){
+                thisItem = viewList.size()-1;}
+            if(thisItem >(viewList.size()-1)){
                 thisItem =0;}
-            try{this.addView(list.get(thisItem),layoutParams);}catch (Exception e){}
-            list.get(thisItem).bringToFront();
-            if(horizontal){list.get(thisItem).setX((next_position + 1) * pagerLength);
-            list.get(thisItem).setY(0);
+            try{this.addView(viewList.get(thisItem),layoutParams);}catch (Exception e){}
+            viewList.get(thisItem).bringToFront();
+            if(horizontal){
+                viewList.get(thisItem).setX((next_position + 1) * pagerLength);
+            viewList.get(thisItem).setY(0);
             }else {
-                list.get(thisItem).setY((next_position + 1) * pagerLength);
-                list.get(thisItem).setX(0);
+                viewList.get(thisItem).setY((next_position + 1) * pagerLength);
+                viewList.get(thisItem).setX(0);
             }
 
-            try{this.addView(list.get(nextItem),layoutParams);}catch (Exception e){}
-            list.get(nextItem).bringToFront();
-            if(horizontal){list.get(nextItem).setX(next_position * pagerLength);
-            list.get(nextItem).setY(0);
+            try{this.addView(viewList.get(nextItem),layoutParams);}catch (Exception e){}
+            viewList.get(nextItem).bringToFront();
+            if(horizontal){
+                viewList.get(nextItem).setX(next_position * pagerLength);
+            viewList.get(nextItem).setY(0);
             }else {
-                list.get(nextItem).setY(next_position * pagerLength);
-                list.get(nextItem).setX(0);
+                viewList.get(nextItem).setY(next_position * pagerLength);
+                viewList.get(nextItem).setX(0);
             }
         }else{
             next_position=0;
             nextItem =0;
             thisItem =0;
-            try{this.addView(list.get(0),layoutParams);}catch (Exception e){}
-            list.get(nextItem).bringToFront();
-            list.get(0).setX(0);
-            list.get(0).setY(0);
+            try{this.addView(viewList.get(0),layoutParams);}catch (Exception e){}
+            viewList.get(nextItem).bringToFront();
+            viewList.get(0).setX(0);
+            viewList.get(0).setY(0);
         }
 
         if(distence>=0){
@@ -223,15 +218,15 @@ public class LoopViewPager extends FrameLayout{
         }
         item=thisItem;
         /*回收*/
-        for (int i=0;i<list.size();i++){
-            if(i!= nextItem &&i!= thisItem){try{this.removeView(list.get(i));}catch (Exception e){}}
+        for (int i = 0; i< viewList.size(); i++){
+            if(i!= nextItem &&i!= thisItem){try{this.removeView(viewList.get(i));}catch (Exception e){}}
         }
 
     }
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         try {
-            if (list.size() <= 1) {
+            if (viewList.size() <= 1) {
                 return super.dispatchTouchEvent(ev);
             }
         } catch (Exception e) {
@@ -306,7 +301,7 @@ public class LoopViewPager extends FrameLayout{
                 public void onAnimationEnd(Animator animation) {
                     backToAutoChange();
                     if (onItemSelectedListener != null) {
-                        onItemSelectedListener.selected(item, list.get(item));
+                        onItemSelectedListener.selected(item, viewList.get(item));
                     }
                 }
 
@@ -348,7 +343,7 @@ public class LoopViewPager extends FrameLayout{
     }
 
     public void setAutoChange(boolean change) {
-        if(list.size()<=1){
+        if(viewList.size()<=1){
             try{setAuto(false);}catch (Exception e){}
             }else {
             autoChange = change;
@@ -379,5 +374,9 @@ public class LoopViewPager extends FrameLayout{
 
     public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
         this.onItemSelectedListener = onItemSelectedListener;
+    }
+
+    public List<View> getViewList() {
+        return viewList;
     }
 }
