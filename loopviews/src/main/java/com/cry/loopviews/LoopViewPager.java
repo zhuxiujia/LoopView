@@ -32,7 +32,7 @@ public class LoopViewPager extends FrameLayout{
     private ViewGroup.LayoutParams layoutParams=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     private OnItemSelectedListener onItemSelectedListener=null;
 
-    private boolean horizontal=true;//是否横向滑动，否则竖直方向滑动
+    private boolean horizontal=true;//
     boolean touching=false;//is touching
     int last_touch_point=0;//上次点击
     int  position=0;//now view x position
@@ -93,19 +93,6 @@ public class LoopViewPager extends FrameLayout{
             }
         };
     }
-
-    public void setList(List<View> list) {
-        try{setAutoChange(false);}catch (Exception e){}
-        try{removeAllViews();}catch (Exception e){}
-        this.viewList = list;
-        try {
-            invate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -378,5 +365,16 @@ public class LoopViewPager extends FrameLayout{
 
     public List<View> getViewList() {
         return viewList;
+    }
+
+    public void setViewList(List<View> viewList) {
+        try{setAutoChange(false);}catch (Exception e){}
+        try{removeAllViews();}catch (Exception e){}
+        this.viewList = viewList;
+        try {
+            invate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
