@@ -105,8 +105,8 @@ public class LoopView extends RelativeLayout{
         return new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                if(horizontal){angle+=distanceX/4;}
-                else {angle+=distanceY/4;}
+                angle+=Math.cos(Math.toRadians(loopRotationZ))*(distanceX/4)
+                        +Math.sin(Math.toRadians(loopRotationZ))*(distanceY/4);
                 invate();
                 return true;
             }

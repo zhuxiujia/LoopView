@@ -94,7 +94,7 @@
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="180"
+                android:max="360"
                 android:id="@+id/seekBar_z" />
             <CheckBox
                 android:id="@+id/checkbox_use_textview"
