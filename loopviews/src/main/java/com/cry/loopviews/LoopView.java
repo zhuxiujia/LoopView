@@ -41,7 +41,6 @@ public class LoopView extends RelativeLayout{
     private float last_angle=0;
     private boolean autoRotation=false;//自动旋转
     private boolean touching=false;//正在触摸
-    private boolean horizontal=true;//是否横向滑动，否则竖直方向滑动
     private int loopRotationX =0, loopRotationZ =0;//x轴旋转和轴旋转，y轴无效果
     List<View> views=new ArrayList<>();//子view引用列表
     private OnInvateListener onInvateListener=null;//刷新侦听
@@ -409,12 +408,10 @@ public class LoopView extends RelativeLayout{
 
     public LoopView setHorizontal(boolean horizontal,boolean anim) {
         if(anim){
-            this.horizontal = horizontal;
             if(horizontal){ createZAnimation(getLoopRotationZ(),0,true);}else{
                 createZAnimation(getLoopRotationZ(),90,true);
             }
         }else{
-            this.horizontal = horizontal;
             if(horizontal){setLoopRotationZ(0);}else {setLoopRotationZ(90);}
             invate();
         }
