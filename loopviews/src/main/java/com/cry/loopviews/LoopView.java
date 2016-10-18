@@ -45,7 +45,7 @@ public class LoopView extends RelativeLayout {
     private int loopRotationX = 0, loopRotationZ = 0;//x轴旋转和轴旋转，y轴无效果
     private OnInvateListener onInvateListener = null;//刷新侦听
     private OnItemSelectedListener onItemSelectedListener = null;//选择事件接口
-    LoopHandler loopHandler = new LoopHandler(3000) {
+    LoopHandler loopHandler = new LoopHandler(3000) {//自动切换角度用handler
         @Override
         public void du() {
             try {
