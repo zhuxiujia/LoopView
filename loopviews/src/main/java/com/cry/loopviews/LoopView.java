@@ -69,6 +69,7 @@ public class LoopView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         init(context);
     }
+
     /*初始化view attached 后，算子view 数目*/
     private void init(final Context context) {
         mGestureDetector = new GestureDetector(context, getGeomeryController());
@@ -86,6 +87,7 @@ public class LoopView extends RelativeLayout {
             }
         });
     }
+
     /*排序以整理重叠顺序*/
     private void sortList(List<View> list) {
         Collections.sort(list, comp);
@@ -94,6 +96,7 @@ public class LoopView extends RelativeLayout {
             list.get(i).setEnabled(i == (list.size() - 1) && angle % (360 / size) == 0 ? true : false);
         }
     }
+
     /*触摸算角度，然后刷新*/
     private GestureDetector.SimpleOnGestureListener getGeomeryController() {
         return new GestureDetector.SimpleOnGestureListener() {
@@ -106,6 +109,7 @@ public class LoopView extends RelativeLayout {
             }
         };
     }
+
     /*刷新数据变化到界面*/
     public void invate() {
         for (int i = 0; i < views.size(); i++) {
@@ -138,6 +142,7 @@ public class LoopView extends RelativeLayout {
     public void setOnInvateListener(OnInvateListener onInvateListener) {
         this.onInvateListener = onInvateListener;
     }
+
     /*重新排序*/
     private void redoSortArray() {
         viewSortArray.clear();
@@ -160,6 +165,7 @@ public class LoopView extends RelativeLayout {
             RAnimation();
         }
     }
+
     /*创建x轴动画*/
     public void createXAnimation(int from, int to, boolean start) {
         if (xAnimation != null) if (xAnimation.isRunning() == true) xAnimation.cancel();
@@ -175,6 +181,7 @@ public class LoopView extends RelativeLayout {
         xAnimation.setDuration(2000);
         if (start) xAnimation.start();
     }
+
     /*z轴动画*/
     public ValueAnimator createZAnimation(int from, int to, boolean start) {
         if (zAnimation != null) if (zAnimation.isRunning() == true) zAnimation.cancel();
@@ -191,11 +198,13 @@ public class LoopView extends RelativeLayout {
         if (start) zAnimation.start();
         return zAnimation;
     }
+
     /*半径动画*/
     public void RAnimation() {
         RAnimation(1f, r);
     }
 
+    /*半径动画*/
     public void RAnimation(boolean fromZeroToLoopR) {
         if (fromZeroToLoopR) {
             RAnimation(1f, LoopR);
@@ -204,6 +213,7 @@ public class LoopView extends RelativeLayout {
         }
     }
 
+    /*半径动画*/
     public void RAnimation(float from, float to) {
         if (rAnimation != null) if (rAnimation.isRunning() == true) rAnimation.cancel();
         rAnimation = ValueAnimator.ofFloat(from, to);
@@ -218,6 +228,7 @@ public class LoopView extends RelativeLayout {
         rAnimation.setDuration(2000);
         rAnimation.start();
     }
+
     /*重置位置*/
     private void restPosition() {
         if (size == 0) {
@@ -245,6 +256,7 @@ public class LoopView extends RelativeLayout {
         }
         AnimRotationTo(finall, null);
     }
+
     /*播放旋转动画*/
     private void AnimRotationTo(float finall, final Runnable complete) {
         if (angle == finall) {
@@ -317,6 +329,7 @@ public class LoopView extends RelativeLayout {
         }
         restAnimator.start();
     }
+
     /*计算item*/
     private int calculateItem() {
         return (int) (angle / (360 / size)) % size;

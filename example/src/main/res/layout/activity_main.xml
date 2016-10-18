@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical|right"
-        >
+        android:gravity="center_vertical|right">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LoopViewPager"/>
+            android:text="LoopViewPager" />
+
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,6 +22,7 @@
             android:id="@+id/switch_hx"
             android:layout_gravity="right"
             android:checked="true" />
+
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,26 +37,27 @@
         android:layout_width="fill_parent"
         android:layout_height="170dp"
         android:gravity="center_vertical"
-        android:background="#334e4e4e">
-    </com.cry.loopviews.LoopViewPager>
+        android:background="#334e4e4e"></com.cry.loopviews.LoopViewPager>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical|right"
-        >
+        android:gravity="center_vertical|right">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LoopView "/>
+            android:text="LoopView " />
+
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="半径动画"
             android:checked="true"
             android:id="@+id/switch_r_animation" />
+
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,6 +65,7 @@
             android:id="@+id/switch_hx_loopview"
             android:layout_gravity="right"
             android:checked="true" />
+
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,44 +74,53 @@
             android:layout_gravity="right"
             android:checked="false" />
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+
         <com.cry.loopviews.LoopView
             android:id="@+id/loopView0"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="center"
-            >
+            android:gravity="center">
+
             <include layout="@layout/item_view0"></include>
+
             <include layout="@layout/item_view1"></include>
+
             <include layout="@layout/item_view2"></include>
         </com.cry.loopviews.LoopView>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="vertical">
+
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="180"
                 android:id="@+id/seekBar_x" />
+
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="360"
                 android:id="@+id/seekBar_z" />
+
             <CheckBox
                 android:id="@+id/checkbox_use_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="使用TextView"/>
+                android:hint="使用TextView" />
+
             <TextView
                 android:id="@+id/textView_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""/>
+                android:text="" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
