@@ -113,6 +113,7 @@ public class LoopView extends RelativeLayout {
     /*刷新数据变化到界面*/
     public void invate() {
         for (int i = 0; i < views.size(); i++) {
+            /*计算角度平均分后各个顶点位置*/
             double radians = angle + 180 - i * 360 / size;
             float x0 = (float) Math.sin(Math.toRadians(radians)) * r;
             float y0 = (float) Math.cos(Math.toRadians(radians)) * r;
@@ -139,6 +140,7 @@ public class LoopView extends RelativeLayout {
         }
     }
 
+    /*角度刷新侦听*/
     public void setOnInvateListener(OnInvateListener onInvateListener) {
         this.onInvateListener = onInvateListener;
     }
