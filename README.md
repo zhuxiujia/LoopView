@@ -1,8 +1,9 @@
 #介绍
-## LoopViewPager 继承自FrameLayout，不仅支持无限循环，相比android.support.v4中的ViewPager，更加简单易用。PS目前很多人实现是用int最大值的办法，但是数量必须在3个以上，不好.Loop是底层实现，仅仅缓存一个view<br />
-## LoopView 继承自RelativeLayout，不仅支持无限循环，而且有许多酷炫的动画和自定义功能，支持x轴，z轴，半径的动态 改变外观。非常易于使用。
-<br />
+### LoopViewPager 继承自FrameLayout，不仅支持无限循环，相比android.support.v4中的ViewPager，更加简单易用。PS目前很多人实现是用int最大值的办法，但是数量必须在3个以上，不好.Loop是底层实现，仅仅缓存一个view<br />
+### LoopView 继承自RelativeLayout，不仅支持无限循环，而且有许多酷炫的动画和自定义功能，支持x轴，z轴，半径的动态 改变外观。非常易于使用。<br />
+
 ![image](demo.gif)
+
 ## 优势
 *3d旋转GrallyView，继承FrameLayout<br />
 *LoopViewPager不仅支持无限循环，还支持左右和上下切换，同时支持Handler实现的自动切换
