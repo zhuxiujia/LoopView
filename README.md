@@ -13,6 +13,7 @@ LoopView     ------> 继承自RelativeLayout，不仅支持无限循环，而且
 ##如何使用？
 ###Step1:导入jar文件到项目
 ###Step2:在你的layout目录下编写加入你的xml文件
+```
         <com.cry.loopviews.LoopView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -26,6 +27,7 @@ LoopView     ------> 继承自RelativeLayout，不仅支持无限循环，而且
         />
               <!-- 可以包裹任意多的view 和layout -->
         </com.cry.loopviews.LoopView>
+ ```
 ##问题反馈和联系方式
 qq:347284221<br />
 邮箱:zhuxiujia@qq.com<br />
