@@ -14,19 +14,18 @@ LoopView     ------> 继承自RelativeLayout，不仅支持无限循环，而且
 ###Step1:导入jar文件到项目
 ###Step2:在你的layout目录下编写加入你的xml文件
 ```
-        <com.cry.loopviews.LoopView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        >
-              <!--此处添加你的任意View或者layout元素 -->
-        <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_launcher"    
-        />
-              <!-- 可以包裹任意多的view 和layout -->
-        </com.cry.loopviews.LoopView>
+<com.cry.loopviews.LoopView
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent"
+          android:gravity="center_vertical"
+  >
+           <!--此处添加你的任意View或者layout元素,例如ImageView,TextView....等等 -->
+       <ImageView
+           android:layout_width="200dp"
+           android:layout_height="200dp"
+           android:src="@drawable/ic_launcher"    
+       />
+</com.cry.loopviews.LoopView>
  ```
 ##问题反馈和联系方式
 qq:347284221<br />
